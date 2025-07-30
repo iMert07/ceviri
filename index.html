@@ -47,8 +47,8 @@
   }
   .key:active { background: #599; }
 
-  .key.wide { width: 80px; }
-  .key.extra-wide { width: 200px; }
+  .key.wide { width: 100px; }  /* 2 tuş genişliği */
+  .key.extra-wide { width: 250px; } /* Space tuşu */
 </style>
 </head>
 <body>
@@ -61,37 +61,38 @@
 </div>
 
 <div class="keyboard">
-  <!-- 1. Satır: 12 tuş -->
+  <!-- 1. Satır -->
   <div class="row">
     <div class="key">θ</div><div class="key">1</div><div class="key">2</div><div class="key">3</div>
     <div class="key">4</div><div class="key">5</div><div class="key">6</div><div class="key">7</div>
     <div class="key">8</div><div class="key">9</div><div class="key">Φ</div><div class="key">Λ</div>
   </div>
 
-  <!-- 2. Satır: 12 tuş -->
+  <!-- 2. Satır -->
   <div class="row">
     <div class="key">Þ</div><div class="key">V</div><div class="key">H</div><div class="key">ȣ</div>
     <div class="key">Y</div><div class="key">G</div><div class="key">F</div><div class="key">S</div>
     <div class="key">M</div><div class="key">K</div><div class="key">Ϟ</div><div class="key">Ψ</div>
   </div>
 
-  <!-- 3. Satır: 10 tuş -->
+  <!-- 3. Satır: , + 8 harf + . -->
   <div class="row">
-    <div class="key">E</div><div class="key">A</div><div class="key">I</div><div class="key">Ͱ</div>
-    <div class="key">S</div><div class="key">R</div><div class="key">L</div><div class="key">N</div>
-    <div class="key">P</div><div class="key">D</div>
+    <div class="key">,</div><div class="key">E</div><div class="key">A</div><div class="key">I</div>
+    <div class="key">Ͱ</div><div class="key">S</div><div class="key">R</div><div class="key">L</div>
+    <div class="key">N</div><div class="key">.</div>
   </div>
 
-  <!-- 4. Satır: 8 tuş -->
-  <div class="row">
-    <div class="key">Π</div><div class="key">Ω</div><div class="key">Ϙ</div><div class="key">C</div>
-    <div class="key">Z</div><div class="key">Γ</div><div class="key">T</div><div class="key">B</div>
-  </div>
-
-  <!-- 5. Satır: İşlev tuşları -->
+  <!-- 4. Satır: Shift - 6 harf - Del -->
   <div class="row">
     <div class="key wide" data-action="shift">Shift</div>
+    <div class="key">Π</div><div class="key">Ω</div><div class="key">Ϙ</div>
+    <div class="key">C</div><div class="key">Z</div><div class="key">Γ</div>
     <div class="key wide" data-action="delete">Del</div>
+  </div>
+
+  <!-- 5. Satır: Caps - Space - Enter -->
+  <div class="row">
+    <div class="key wide" data-action="caps">Caps</div>
     <div class="key extra-wide" data-action="space">Space</div>
     <div class="key wide" data-action="enter">Enter</div>
   </div>
@@ -100,41 +101,20 @@
 <script>
   const latin = document.getElementById('latin');
   const greek = document.getElementById('greek');
-  let activeInput = latin; // Sanal klavye hangi kutuya yazıyor
+  let activeInput = latin;
 
-  // Latin → Rum/Yunan (küçük/büyük ayrı, ama Yunan hep büyük)
   const toGreek = {
-    "a":"Α","A":"Α",
-    "e":"Ε","E":"Ε",
-    "i":"Ι","İ":"Ι",
-    "n":"Ν","N":"Ν",
-    "r":"Ρ","R":"Ρ",
-    "l":"L","L":"L",
-    "ı":"Ͱ","I":"Ͱ",
-    "k":"Κ","K":"K",
-    "d":"D","D":"D",
-    "m":"Μ","M":"Μ",
-    "t":"Τ","T":"Τ",
-    "y":"ϟ","Y":"ϟ",
-    "s":"Σ","S":"Σ",
-    "u":"Υ","U":"Υ",
-    "o":"Ϙ","O":"Ϙ",
-    "b":"Β","B":"Β",
-    "ş":"S","Ş":"S",
-    "ü":"ȣ","Ü":"ȣ",
-    "z":"Ζ","Z":"Ζ",
-    "g":"Γ","G":"Γ",
-    "ç":"C","Ç":"C",
-    "ğ":"R","Ğ":"R",
-    "v":"Ϝ","V":"Ϝ",
-    "c":"G","C":"G",
-    "h":"Η","H":"Η",
-    "p":"Π","P":"Π",
-    "ö":"Ω","Ö":"Ω",
-    "x":"Ψ","X":"Ψ",
-    "j":"Ϸ","J":"Ϸ"
+    "a":"Α","A":"Α","e":"Ε","E":"Ε","i":"Ι","İ":"Ι",
+    "n":"Ν","N":"Ν","r":"Ρ","R":"Ρ","l":"L","L":"L",
+    "ı":"Ͱ","I":"Ͱ","k":"Κ","K":"K","d":"D","D":"D",
+    "m":"Μ","M":"Μ","t":"Τ","T":"Τ","y":"ϟ","Y":"ϟ",
+    "s":"Σ","S":"Σ","u":"Υ","U":"Υ","o":"Ϙ","O":"Ϙ",
+    "b":"Β","B":"Β","ş":"S","Ş":"S","ü":"ȣ","Ü":"ȣ",
+    "z":"Ζ","Z":"Ζ","g":"Γ","G":"Γ","ç":"C","Ç":"C",
+    "ğ":"R","Ğ":"R","v":"Ϝ","V":"Ϝ","c":"G","C":"G",
+    "h":"Η","H":"Η","p":"Π","P":"Π","ö":"Ω","Ö":"Ω",
+    "x":"Ψ","X":"Ψ","j":"Ϸ","J":"Ϸ"
   };
-
   const toLatin = Object.fromEntries(Object.entries(toGreek).map(([k,v])=>[v,k.toUpperCase()]));
 
   function translate(text, dir){
@@ -142,37 +122,24 @@
     return text.split('').map(ch=> map[ch] || ch ).join('');
   }
 
-  latin.addEventListener('input', ()=>{
-    greek.value = translate(latin.value, "toGreek");
-  });
-
-  greek.addEventListener('input', ()=>{
-    latin.value = translate(greek.value, "toLatin");
-  });
+  latin.addEventListener('input', ()=> greek.value = translate(latin.value, "toGreek"));
+  greek.addEventListener('input', ()=> latin.value = translate(greek.value, "toLatin"));
 
   latin.addEventListener('focus', ()=>activeInput = latin);
   greek.addEventListener('focus', ()=>activeInput = greek);
 
-  // Sanal klavye
   document.querySelectorAll('.key').forEach(key => {
     key.addEventListener('click', () => {
       const action = key.dataset.action;
-      if(action === 'delete') {
-        activeInput.value = activeInput.value.slice(0,-1);
-      } else if(action === 'enter') {
-        activeInput.value += '\n';
-      } else if(action === 'space') {
-        activeInput.value += ' ';
-      } else {
-        activeInput.value += key.innerText;
-      }
+      if(action === 'delete') activeInput.value = activeInput.value.slice(0,-1);
+      else if(action === 'enter') activeInput.value += '\n';
+      else if(action === 'space') activeInput.value += ' ';
+      else activeInput.value += key.innerText;
 
-      // Otomatik çeviri
-      if(activeInput === latin){
+      if(activeInput === latin)
         greek.value = translate(latin.value, "toGreek");
-      } else {
+      else
         latin.value = translate(greek.value, "toLatin");
-      }
     });
   });
 </script>
