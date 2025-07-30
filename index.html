@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Özel Klavye</title>
+<style>
+  body { font-family: Arial, sans-serif; text-align: center; background: #eef; }
+  h1 { margin-top: 20px; }
+
+  select { font-size: 16px; margin: 20px; padding: 5px; }
+
+  .output { 
+    width: 80%; 
+    height: 80px; 
+    font-size: 24px; 
+    margin: 20px auto; 
+    display: block; 
+    text-align: center; 
+  }
+
+  .keyboard { 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 30px;
+  }
+
+  .row {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+  }
+
+  .key { 
+    width: 50px; height: 50px;
+    display: flex; justify-content: center; align-items: center;
+    background: #7bb; 
+    cursor: pointer; 
+    font-size: 20px; 
+    border-radius: 5px;
+    user-select: none;
+  }
+  .key:active { background: #599; }
+
+  .key.wide { width: 80px; }
+  .key.extra-wide { width: 200px; }
+</style>
+</head>
+<body>
+
+<h1>Özel Klavye</h1>
+<select id="mode">
+  <option value="toCustom">Güncelden Bu Düzen</option>
+  <option value="toNormal">Bundan Güncele</option>
+</select>
+
+<textarea class="output" id="output"></textarea>
+
+<div class="keyboard">
+  <!-- 1. Satır: 12 tuş -->
+  <div class="row">
+    <div class="key">Q</div><div class="key">W</div><div class="key">E</div><div class="key">R</div>
+    <div class="key">T</div><div class="key">Y</div><div class="key">U</div><div class="key">I</div>
+    <div class="key">O</div><div class="key">P</div><div class="key">Ğ</div><div class="key">Ü</div>
+  </div>
+
+  <!-- 2. Satır: 12 tuş -->
+  <div class="row">
+    <div class="key">A</div><div class="key">S</div><div class="key">D</div><div class="key">F</div>
+    <div class="key">G</div><div class="key">H</div><div class="key">J</div><div class="key">K</div>
+    <div class="key">L</div><div class="key">Ş</div><div class="key">İ</div><div class="key">Z</div>
+  </div>
+
+  <!-- 3. Satır: 10 tuş -->
+  <div class="row">
+    <div class="key">X</div><div class="key">C</div><div class="key">V</div><div class="key">B</div>
+    <div class="key">N</div><div class="key">M</div><div class="key">Ö</div><div class="key">Ç</div>
+    <div class="key">Λ</div><div class="key">Φ</div>
+  </div>
+
+  <!-- 4. Satır: 8 tuş -->
+  <div class="row">
+    <div class="key">Θ</div><div class="key">Ψ</div><div class="key">Γ</div><div class="key">Σ</div>
+    <div class="key">Ω</div><div class="key">Π</div><div class="key">Ϟ</div><div class="key">Ђ</div>
+  </div>
+
+  <!-- 5. Satır: İşlev tuşları -->
+  <div class="row">
+    <div class="key wide" data-action="shift">Shift</div>
+    <div class="key wide" data-action="delete">Del</div>
+    <div class="key extra-wide" data-action="space">Space</div>
+    <div class="key wide" data-action="enter">Enter</div>
+  </div>
+</div>
+
+<script>
+  const output = document.getElementById('output');
+  let shiftActive = false;
+
+  document.querySelectorAll('.key').forEach(key => {
+    key.addEventListener('click', () => {
+      const action = key.dataset.action;
+      if(action === 'delete') {
+        output.value = output.value.slice(0,-1);
+      } else if(action === 'enter') {
+        output.value += '\n';
+      } else if(action === 'space') {
+        output.value += ' ';
+      } else if(action === 'shift') {
+        shiftActive = !shiftActive;
+        key.style.background = shiftActive ? '#faa' : '#7bb';
+      } else {
+        const char = shiftActive ? key.innerText.toUpperCase() : key.innerText;
+        output.value += char;
+        if(shiftActive) {
+          shiftActive = false;
+          document.querySelector('[data-action="shift"]').style.background = '#7bb';
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
