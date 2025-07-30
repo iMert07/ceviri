@@ -100,28 +100,45 @@
 <script>
   const latin = document.getElementById('latin');
   const greek = document.getElementById('greek');
-  let shiftActive = false;
   let activeInput = latin; // Sanal klavye hangi kutuya yazıyor
 
-  // Örnek dönüşüm tabloları (ileri/geri)
+  // Latin → Rum/Yunan (küçük/büyük ayrı, ama Yunan hep büyük)
   const toGreek = {
-    "a":"α","b":"β","c":"ç","d":"δ","e":"ε","f":"φ","g":"γ","h":"η","i":"ι","j":"ĵ",
-    "k":"κ","l":"λ","m":"μ","n":"ν","o":"ο","p":"π","r":"ρ","s":"σ","t":"τ","u":"υ",
-    "v":"ϝ","y":"γ","z":"ζ","ç":"χ","ş":"Ϟ","ğ":"Ϭ","ö":"θ","ü":"ψ"
+    "a":"Α","A":"Α",
+    "b":"Β","B":"Β",
+    "c":"Ç","C":"Ç",
+    "d":"Δ","D":"Δ",
+    "e":"Ε","E":"Ε",
+    "f":"Φ","F":"Φ",
+    "g":"Γ","G":"Γ",
+    "h":"Η","H":"Η",
+    "i":"Ι","I":"Ι",
+    "j":"Ĵ","J":"Ĵ",
+    "k":"Κ","K":"Κ",
+    "l":"Λ","L":"Λ",
+    "m":"Μ","M":"Μ",
+    "n":"Ν","N":"Ν",
+    "o":"Ο","O":"Ο",
+    "p":"Π","P":"Π",
+    "r":"Ρ","R":"Ρ",
+    "s":"Σ","S":"Σ",
+    "t":"Τ","T":"Τ",
+    "u":"Υ","U":"Υ",
+    "v":"Ϝ","V":"Ϝ",
+    "y":"Γ","Y":"Γ",
+    "z":"Ζ","Z":"Ζ",
+    "ç":"Χ","Ç":"Χ",
+    "ş":"Ϟ","Ş":"Ϟ",
+    "ğ":"Ϭ","Ğ":"Ϭ",
+    "ö":"Θ","Ö":"Θ",
+    "ü":"Ψ","Ü":"Ψ"
   };
 
-  // Ters çeviri
-  const toLatin = Object.fromEntries(Object.entries(toGreek).map(([k,v])=>[v,k]));
+  const toLatin = Object.fromEntries(Object.entries(toGreek).map(([k,v])=>[v,k.toUpperCase()]));
 
   function translate(text, dir){
     const map = dir==="toGreek" ? toGreek : toLatin;
-    return text.split('').map(ch=>{
-      const lower = ch.toLowerCase();
-      if(map[lower]){
-        return ch===lower ? map[lower] : map[lower].toUpperCase();
-      }
-      return ch;
-    }).join('');
+    return text.split('').map(ch=> map[ch] || ch ).join('');
   }
 
   latin.addEventListener('input', ()=>{
@@ -145,14 +162,8 @@
         activeInput.value += '\n';
       } else if(action === 'space') {
         activeInput.value += ' ';
-      } else if(action === 'shift') {
-        shiftActive = !shiftActive;
-        key.style.background = shiftActive ? '#faa' : '#7bb';
       } else {
-        const char = shiftActive ? key.innerText.toUpperCase() : key.innerText.toLowerCase();
-        activeInput.value += char;
-        shiftActive = false;
-        document.querySelector('[data-action="shift"]').style.background = '#7bb';
+        activeInput.value += key.innerText;
       }
 
       // Otomatik çeviri
@@ -164,6 +175,6 @@
     });
   });
 </script>
-
+  
 </body>
 </html>
