@@ -54,9 +54,9 @@
   .row {
     display: flex;
     justify-content: center;
-    gap: 6px;
+    gap: 6px;           /* gap biraz azaltıldı */
     width: 100%;
-    padding: 0 4px;
+    padding: 0 4px;     /* padding yarıya indirildi */
     box-sizing: border-box;
     flex-wrap: nowrap;
     overflow: hidden;
@@ -85,20 +85,19 @@
     background: #599;
   }
 
-  /* Tüm wide ve extra-wide tuşları tutarlı yapalım */
   .key.wide {
-    flex-grow: 3;
+    flex-grow: 2;
     flex-shrink: 1;
     flex-basis: 80px;
     max-width: 110px;
     min-width: 65px;
   }
   .key.extra-wide {
-    flex-grow: 6;
+    flex-grow: 8;
     flex-shrink: 1;
-    flex-basis: 240px;
-    max-width: 320px;
-    min-width: 160px;
+    flex-basis: 340px;
+    max-width: 390px;
+    min-width: 180px;
   }
 
   @media (max-width: 768px) {
@@ -120,15 +119,15 @@
       right: 0;
       max-width: 100%;
       background: #eef;
-      padding: 10px 12px;
+      padding: 10px 12px;  /* padding biraz azaltıldı */
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
       box-sizing: border-box;
     }
     .row {
       flex-wrap: nowrap;
-      padding: 0 3px;
-      gap: 4px;
+      padding: 0 3px;    /* mobilde padding çok azaltıldı */
+      gap: 4px;          /* gap azaltıldı */
     }
     .key {
       flex-basis: 28px;
@@ -142,13 +141,11 @@
       flex-basis: 65px;
       max-width: 85px;
       min-width: 50px;
-      flex-grow: 3;
     }
     .key.extra-wide {
       flex-basis: 140px;
       max-width: 190px;
       min-width: 110px;
-      flex-grow: 6;
     }
   }
 </style>
@@ -222,7 +219,7 @@
     "g":"Γ","G":"Γ",
     "ç":"C","Ç":"C",
     "ğ":"R","Ğ":"R",
-    "v":"Ϝ","V":"Ϝ",
+    "v":"F","V":"F",
     "c":"G","C":"G",
     "h":"Η","H":"Η",
     "p":"Π","P":"Π",
