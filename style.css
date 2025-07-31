@@ -44,7 +44,7 @@ textarea {
 .row {
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: 6px;           /* tuşlar arası boşluk */
   width: 100%;
   padding: 0 4px;
   box-sizing: border-box;
@@ -69,7 +69,6 @@ textarea {
   user-select: none;
   font-family: 'Noto Sans', Arial, sans-serif;
   box-sizing: border-box;
-  color: white;
 }
 
 .key:active {
