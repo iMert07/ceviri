@@ -82,12 +82,6 @@ textarea {
   max-width: 110px;
   min-width: 65px;
 
-  .key.toggle {
-  flex-grow: 2;
-  flex-shrink: 1;
-  flex-basis: 80px;
-  max-width: 110px;
-  min-width: 65px;
 }
 .key.extra-wide {
   flex-grow: 8;
