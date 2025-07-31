@@ -44,7 +44,8 @@ textarea {
 .row {
   display: flex;
   justify-content: center;
-  gap: 6px;           /* tuşlar arası boşluk */
+  gap: 6px; /* tuşlar arası boşluk */
+  max-width: 600px;
   width: 100%;
   padding: 0 4px;
   box-sizing: border-box;
@@ -53,11 +54,10 @@ textarea {
 }
 
 .key {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 38px;
-  max-width: 55px;
-  min-width: 28px;
+  flex-grow: 0 !important;
+  flex-shrink: 0 !important;
+  flex-basis: 40px !important;
+  width: 40px;
   height: 50px;
   display: flex;
   justify-content: center;
@@ -76,19 +76,13 @@ textarea {
 }
 
 .key.wide {
-  flex-grow: 2;
-  flex-shrink: 1;
-  flex-basis: 80px;
-  max-width: 110px;
-  min-width: 65px;
-
+  flex-basis: 86px !important; /* 2x tuş genişliği + 1 gap */
+  width: 86px;
 }
+
 .key.extra-wide {
-  flex-grow: 8;
-  flex-shrink: 1;
-  flex-basis: 340px;
-  max-width: 390px;
-  min-width: 180px;
+  flex-basis: 342px !important; /* 8x tuş genişliği + 7 gap */
+  width: 342px;
 }
 
 @media (max-width: 768px) {
@@ -121,7 +115,10 @@ textarea {
     gap: 4px;
   }
   .key {
-    flex-basis: 28px;
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+    flex-basis: 28px !important;
+    width: 28px;
     max-width: 38px;
     min-width: 22px;
     height: 40px;
@@ -129,12 +126,14 @@ textarea {
     box-sizing: border-box;
   }
   .key.wide {
-    flex-basis: 65px;
+    flex-basis: 60px !important;
+    width: 60px;
     max-width: 85px;
     min-width: 50px;
   }
   .key.extra-wide {
-    flex-basis: 140px;
+    flex-basis: 256px !important;
+    width: 256px;
     max-width: 190px;
     min-width: 110px;
   }
