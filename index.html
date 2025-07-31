@@ -100,6 +100,28 @@
     min-width: 180px;
   }
 
+  /* Yeni eklenen medya sorgusu - küçük masaüstü için satır genişliklerini eşitle */
+  @media (max-width: 1000px) and (min-width: 769px) {
+    .keyboard {
+      max-width: 600px;
+    }
+    .row {
+      justify-content: space-between; /* satırları tam genişlikte yay */
+    }
+    .key.wide {
+      flex-grow: 3;
+      flex-basis: 80px;
+      max-width: 110px;
+      min-width: 65px;
+    }
+    .key.extra-wide {
+      flex-grow: 9;
+      flex-basis: 340px;
+      max-width: 390px;
+      min-width: 180px;
+    }
+  }
+
   @media (max-width: 768px) {
     .container {
       flex-direction: column;
