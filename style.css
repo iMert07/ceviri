@@ -1,64 +1,14 @@
-body {
-  font-family: 'Noto Sans', Arial, sans-serif;
-  text-align: center;
-  background: #eef;
-  overflow-x: hidden;
-  margin: 0;
-}
-h1 {
-  margin-top: 20px;
+:root {
+  --key-base-width: 38px;
+  --key-gap: 6px;
+  --key-height: 50px;
 }
 
-.container {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 20px auto;
-  flex-wrap: wrap;
-  max-width: 900px;
-  padding: 0 10px;
-  box-sizing: border-box;
-}
-
-textarea {
-  width: 45%;
-  max-width: 430px;
-  height: 120px;
-  font-size: 20px;
-  padding: 10px;
-  box-sizing: border-box;
-  font-family: 'Noto Sans', Arial, sans-serif;
-}
-
-.keyboard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin: 30px auto;
-  width: 100%;
-  max-width: 600px;
-  box-sizing: border-box;
-}
-
-.row {
-  display: flex;
-  justify-content: center;
-  gap: 6px;           /* tuşlar arası boşluk */
-  width: 100%;
-  padding: 0 4px;
-  box-sizing: border-box;
-  flex-wrap: nowrap;
-  overflow: hidden;
-}
-
+/* Ortak tuşlar */
 .key {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 38px;
-  max-width: 55px;
-  min-width: 28px;
-  height: 50px;
+  flex: 0 0 var(--key-base-width);
+  height: var(--key-height);
+  margin-right: var(--key-gap);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -69,72 +19,58 @@ textarea {
   user-select: none;
   font-family: 'Noto Sans', Arial, sans-serif;
   box-sizing: border-box;
+  /* son tuşta margin-right kalkacak */
 }
 
-.key:active {
-  background: #599;
+.row {
+  display: flex;
+  justify-content: flex-start;
+  padding: 0 4px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 600px;
+  margin: 10px auto;
 }
 
+/* Son tuşlarda sağ margin kaldır */
+.row .key:last-child {
+  margin-right: 0;
+}
+
+/* Geniş tuş (2x genişlik + 1 gap) */
 .key.wide {
-  flex-grow: 2;
-  flex-shrink: 1;
-  flex-basis: 80px;
-  max-width: 110px;
-  min-width: 65px;
-}
-.key.extra-wide {
-  flex-grow: 8;
-  flex-shrink: 1;
-  flex-basis: 340px;
-  max-width: 390px;
-  min-width: 180px;
+  flex: 0 0 calc(calc(var(--key-base-width) * 2) + var(--key-gap));
+  margin-right: var(--key-gap);
 }
 
+/* Çok geniş tuş (8x genişlik + 7 gap) */
+.key.extra-wide {
+  flex: 0 0 calc(calc(var(--key-base-width) * 8) + calc(var(--key-gap) * 7));
+  margin-right: var(--key-gap);
+}
+
+/* Mobil için: küçültme ve margin düzeni */
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 220px;
-    max-width: 100%;
-    padding: 0 15px;
-  }
-  textarea {
-    width: 100%;
-    max-width: none;
-  }
-  .keyboard {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-width: 100%;
-    background: #eef;
-    padding: 10px 12px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    box-sizing: border-box;
-  }
-  .row {
-    flex-wrap: nowrap;
-    padding: 0 3px;
-    gap: 4px;
+  :root {
+    --key-base-width: 28px;
+    --key-gap: 4px;
+    --key-height: 40px;
   }
   .key {
-    flex-basis: 28px;
-    max-width: 38px;
-    min-width: 22px;
-    height: 40px;
+    flex: 0 0 var(--key-base-width);
+    height: var(--key-height);
+    margin-right: var(--key-gap);
     font-size: 16px;
-    box-sizing: border-box;
   }
   .key.wide {
-    flex-basis: 65px;
-    max-width: 85px;
-    min-width: 50px;
+    flex: 0 0 calc(calc(var(--key-base-width) * 2) + var(--key-gap));
+    margin-right: var(--key-gap);
   }
   .key.extra-wide {
-    flex-basis: 140px;
-    max-width: 190px;
-    min-width: 110px;
+    flex: 0 0 calc(calc(var(--key-base-width) * 8) + calc(var(--key-gap) * 7));
+    margin-right: var(--key-gap);
+  }
+  .row .key:last-child {
+    margin-right: 0;
   }
 }
