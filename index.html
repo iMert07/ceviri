@@ -12,7 +12,7 @@
     font-family: 'Noto Sans', Arial, sans-serif;
     text-align: center;
     background: #eef;
-    overflow-x: hidden; /* Yana kaydırmayı engelle */
+    overflow-x: hidden;
   }
   h1 {
     margin-top: 20px;
@@ -21,16 +21,16 @@
   .container {
     display: flex;
     justify-content: center;
-    gap: 15px; /* biraz küçülttüm */
+    gap: 15px;
     margin: 20px auto;
     flex-wrap: wrap;
-    max-width: 900px; /* genişlik sınırı ekledim */
-    padding: 0 10px; /* biraz yatay boşluk */
+    max-width: 900px;
+    padding: 0 10px;
     box-sizing: border-box;
   }
 
   textarea {
-    width: 45%; /* %40'dan %45'e çıkardım ama max-width ile sınırlandı */
+    width: 45%;
     max-width: 430px;
     height: 120px;
     font-size: 20px;
@@ -46,7 +46,7 @@
     gap: 10px;
     margin: 30px auto;
     width: 100%;
-    max-width: 600px; /* Masaüstünde dikdörtgen görünüm */
+    max-width: 600px;
   }
 
   .row {
@@ -54,13 +54,17 @@
     justify-content: center;
     gap: 5px;
     width: 100%;
+    flex-wrap: nowrap; /* satır kırılmasın */
+    overflow: hidden; /* taşmayı gizle */
   }
 
   .key {
-    flex: 1;
-    max-width: 50px;
-    height: 50px; /* Sabit yükseklik */
-    min-height: 50px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 40px; /* başlangıç genişliği */
+    max-width: 60px;
+    min-width: 30px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -70,30 +74,38 @@
     border-radius: 5px;
     user-select: none;
     font-family: 'Noto Sans', Arial, sans-serif;
+    box-sizing: border-box;
   }
+
   .key:active {
     background: #599;
   }
 
   .key.wide {
-    flex: 2;
-    max-width: 105px;
+    flex-grow: 2;
+    flex-shrink: 1;
+    flex-basis: 90px;
+    max-width: 120px;
+    min-width: 70px;
   }
   .key.extra-wide {
-    flex: 8;
-    max-width: 435px;
+    flex-grow: 8;
+    flex-shrink: 1;
+    flex-basis: 350px;
+    max-width: 400px;
+    min-width: 200px;
   }
 
   @media (max-width: 768px) {
     .container {
       flex-direction: column;
       align-items: center;
-      margin-bottom: 220px; /* Klavye üstüne yazı gelmesin diye boşluk */
+      margin-bottom: 220px;
       max-width: 100%;
       padding: 0 15px;
     }
     textarea {
-      width: 100%; /* Mobilde tam genişlik */
+      width: 100%;
       max-width: none;
     }
     .keyboard {
@@ -103,31 +115,29 @@
       right: 0;
       max-width: 100%;
       background: #eef;
-      padding: 10px 10px; /* padding biraz küçültüldü */
+      padding: 10px 15px;
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
-      overflow-x: auto; /* Yatay taşma için kaydırma */
-      white-space: nowrap; /* Satır içi boşluklar taşmasın */
     }
     .row {
-      flex-wrap: nowrap; /* Satırdaki tuşlar sarmasın */
-      gap: 4px;
-      justify-content: flex-start; /* Başlangıçtan diz */
+      flex-wrap: nowrap;
     }
     .key {
-      flex: 0 0 40px !important; /* Sabit genişlik */
-      max-width: 40px !important;
-      font-size: 14px; /* Küçük yazı */
-      height: 40px;    /* Küçük tuş */
-      min-height: 40px;
+      flex-basis: 30px;
+      max-width: 40px;
+      min-width: 25px;
+      height: 40px;
+      font-size: 16px;
     }
     .key.wide {
-      flex: 0 0 80px !important;
-      max-width: 80px !important;
+      flex-basis: 70px;
+      max-width: 90px;
+      min-width: 60px;
     }
     .key.extra-wide {
-      flex: 0 0 180px !important;
-      max-width: 180px !important;
+      flex-basis: 150px;
+      max-width: 200px;
+      min-width: 120px;
     }
   }
 </style>
