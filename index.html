@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Çeviri</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&subset=greek&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&subset=greek&display=swap" rel="stylesheet" />
 
 <style>
-  body { 
-    font-family: 'Noto Sans', Arial, sans-serif; 
-    text-align: center; 
-    background: #eef; 
+  body {
+    font-family: 'Noto Sans', Arial, sans-serif;
+    text-align: center;
+    background: #eef;
     overflow-x: hidden; /* Yana kaydırmayı engelle */
   }
-  h1 { margin-top: 20px; }
+  h1 {
+    margin-top: 20px;
+  }
 
   .container {
     display: flex;
@@ -33,7 +35,7 @@
     font-family: 'Noto Sans', Arial, sans-serif;
   }
 
-  .keyboard { 
+  .keyboard {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -50,36 +52,59 @@
     width: 100%;
   }
 
-  .key { 
+  .key {
     flex: 1;
     max-width: 50px;
-    aspect-ratio: 1 / 1;
-    display: flex; justify-content: center; align-items: center;
-    background: #7bb; 
-    cursor: pointer; 
-    font-size: 20px; 
+    /* aspect-ratio kaldırıldı */
+    height: 50px;          /* Sabit yükseklik */
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #7bb;
+    cursor: pointer;
+    font-size: 20px;
     border-radius: 5px;
     user-select: none;
     font-family: 'Noto Sans', Arial, sans-serif;
   }
-  .key:active { background: #599; }
+  .key:active {
+    background: #599;
+  }
 
-  .key.wide { flex: 2; max-width: 105px; }
-  .key.extra-wide { flex: 8; max-width: 435px; }
+  .key.wide {
+    flex: 2;
+    max-width: 105px;
+  }
+  .key.extra-wide {
+    flex: 8;
+    max-width: 435px;
+  }
 
   @media (max-width: 768px) {
     .container {
       flex-direction: column;
       align-items: center;
+      margin-bottom: 220px; /* Klavye üstüne yazı gelmesin diye boşluk */
     }
     textarea {
       width: 90%;
     }
     .keyboard {
-      max-width: 95%; /* Mobilde ekrana otur */
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-width: 100%;
+      background: #eef;
+      padding: 10px 0;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
     }
     .key {
       font-size: 16px; /* Mobilde biraz küçült */
+      height: 45px;    /* Mobilde biraz daha küçük tuş yüksekliği */
+      min-height: 45px;
     }
   }
 </style>
@@ -197,6 +222,6 @@
     });
   });
 </script>
-  
+
 </body>
 </html>
