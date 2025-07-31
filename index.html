@@ -2,10 +2,9 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobil uyumluluk -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Çeviri</title>
 
-<!-- Geniş Unicode destekli font -->
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&subset=greek&display=swap" rel="stylesheet">
 
 <style>
@@ -13,6 +12,7 @@
     font-family: 'Noto Sans', Arial, sans-serif; 
     text-align: center; 
     background: #eef; 
+    overflow-x: hidden; /* Yana kaydırmayı engelle */
   }
   h1 { margin-top: 20px; }
 
@@ -21,7 +21,7 @@
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
-    flex-wrap: wrap; /* daraldığında taşma engellenir */
+    flex-wrap: wrap;
   }
 
   textarea {
@@ -38,17 +38,22 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    margin-top: 30px;
+    margin: 30px auto;
+    width: 100%;
+    max-width: 600px; /* Masaüstünde dikdörtgen görünüm */
   }
 
   .row {
     display: flex;
     justify-content: center;
     gap: 5px;
+    width: 100%;
   }
 
   .key { 
-    width: 50px; height: 50px;
+    flex: 1;
+    max-width: 50px;
+    aspect-ratio: 1 / 1;
     display: flex; justify-content: center; align-items: center;
     background: #7bb; 
     cursor: pointer; 
@@ -59,10 +64,9 @@
   }
   .key:active { background: #599; }
 
-  .key.wide { width: 105px; }
-  .key.extra-wide { width: 435px; }
+  .key.wide { flex: 2; max-width: 105px; }
+  .key.extra-wide { flex: 8; max-width: 435px; }
 
-  /* Mobil görünüm için sadece textarea alt alta olacak */
   @media (max-width: 768px) {
     .container {
       flex-direction: column;
@@ -70,6 +74,12 @@
     }
     textarea {
       width: 90%;
+    }
+    .keyboard {
+      max-width: 95%; /* Mobilde ekrana otur */
+    }
+    .key {
+      font-size: 16px; /* Mobilde biraz küçült */
     }
   }
 </style>
@@ -84,35 +94,30 @@
 </div>
 
 <div class="keyboard">
-  <!-- 1. Satır: 12 tuş -->
   <div class="row">
     <div class="key">θ</div><div class="key">1</div><div class="key">2</div><div class="key">3</div>
     <div class="key">4</div><div class="key">5</div><div class="key">6</div><div class="key">7</div>
     <div class="key">8</div><div class="key">9</div><div class="key">Φ</div><div class="key">Λ</div>
   </div>
 
-  <!-- 2. Satır: 12 tuş -->
   <div class="row">
     <div class="key">Þ</div><div class="key">V</div><div class="key">H</div><div class="key">U</div>
     <div class="key">Y</div><div class="key">G</div><div class="key">F</div><div class="key">Σ</div>
     <div class="key">M</div><div class="key">K</div><div class="key">J</div><div class="key">Ψ</div>
   </div>
 
-  <!-- 3. Satır: 10+2 tuş -->
   <div class="row">
     <div class="key">,</div><div class="key">E</div><div class="key">A</div><div class="key">Ͱ</div>
     <div class="key">Ь</div><div class="key">Ш</div><div class="key">R</div><div class="key">L</div>
     <div class="key">N</div><div class="key">P</div><div class="key">D</div><div class="key">.</div>
   </div>
 
-  <!-- 4. Satır: 8+2 tuş -->
   <div class="row">
     <div class="key wide" data-action="shift">Shift</div><div class="key">Π</div><div class="key">Ω</div>
     <div class="key">Ϙ</div><div class="key">C</div><div class="key">Z</div><div class="key">Γ</div>
     <div class="key">T</div><div class="key">B</div><div class="key wide" data-action="delete">Delete</div>
   </div>
 
-  <!-- 5. Satır: Caps - Space - Enter -->
   <div class="row">
     <div class="key wide" data-action="caps">Caps</div>
     <div class="key extra-wide" data-action="space">Space</div>
@@ -165,13 +170,8 @@
     return text.split('').map(ch=> map[ch] || ch ).join('');
   }
 
-  latin.addEventListener('input', ()=>{
-    greek.value = translate(latin.value, "toGreek");
-  });
-
-  greek.addEventListener('input', ()=>{
-    latin.value = translate(greek.value, "toLatin");
-  });
+  latin.addEventListener('input', ()=>{ greek.value = translate(latin.value, "toGreek"); });
+  greek.addEventListener('input', ()=>{ latin.value = translate(greek.value, "toLatin"); });
 
   latin.addEventListener('focus', ()=>activeInput = latin);
   greek.addEventListener('focus', ()=>activeInput = greek);
