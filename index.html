@@ -54,9 +54,9 @@
   .row {
     display: flex;
     justify-content: center;
-    gap: 6px;           /* gap biraz azaltıldı */
+    gap: 6px;
     width: 100%;
-    padding: 0 4px;     /* padding yarıya indirildi */
+    padding: 0 4px;
     box-sizing: border-box;
     flex-wrap: nowrap;
     overflow: hidden;
@@ -100,6 +100,12 @@
     min-width: 180px;
   }
 
+  /* Küçük masaüstü sekmesi için hizalama */
+  @media (max-width: 1000px) and (min-width: 769px) {
+    .keyboard { max-width: 550px; }
+    .row { justify-content: space-between; }
+  }
+
   @media (max-width: 768px) {
     .container {
       flex-direction: column;
@@ -119,15 +125,15 @@
       right: 0;
       max-width: 100%;
       background: #eef;
-      padding: 10px 12px;  /* padding biraz azaltıldı */
+      padding: 10px 12px;
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
       box-sizing: border-box;
     }
     .row {
       flex-wrap: nowrap;
-      padding: 0 3px;    /* mobilde padding çok azaltıldı */
-      gap: 4px;          /* gap azaltıldı */
+      padding: 0 3px;
+      gap: 4px;
     }
     .key {
       flex-basis: 28px;
@@ -197,36 +203,12 @@
   let activeInput = latin;
 
   const toGreek = {
-    "a":"Α","A":"Α",
-    "e":"Ε","E":"Ε",
-    "i":"Ͱ","İ":"Ͱ",
-    "n":"Ν","N":"Ν",
-    "r":"Ρ","R":"Ρ",
-    "l":"L","L":"L",
-    "ı":"Ь","I":"Ь",
-    "k":"Κ","K":"K",
-    "d":"D","D":"D",
-    "m":"Μ","M":"Μ",
-    "t":"Τ","T":"Τ",
-    "y":"J","Y":"J",
-    "s":"Σ","S":"Σ",
-    "u":"Υ","U":"Υ",
-    "o":"Ϙ","O":"Ϙ",
-    "b":"Β","B":"Β",
-    "ş":"Ш","Ş":"Ш",
-    "ü":"U","Ü":"U",
-    "z":"Ζ","Z":"Ζ",
-    "g":"Γ","G":"Γ",
-    "ç":"C","Ç":"C",
-    "ğ":"R","Ğ":"R",
-    "v":"F","V":"F",
-    "c":"G","C":"G",
-    "h":"Η","H":"Η",
-    "p":"Π","P":"Π",
-    "ö":"Ω","Ö":"Ω",
-    "f":"V","F":"V",
-    "x":"Ψ","X":"Ψ",
-    "j":"Ϸ","J":"Ϸ"
+    "a":"Α","A":"Α","e":"Ε","E":"Ε","i":"Ͱ","İ":"Ͱ","n":"Ν","N":"Ν","r":"Ρ","R":"Ρ",
+    "l":"L","L":"L","ı":"Ь","I":"Ь","k":"Κ","K":"K","d":"D","D":"D","m":"Μ","M":"Μ",
+    "t":"Τ","T":"Τ","y":"J","Y":"J","s":"Σ","S":"Σ","u":"Υ","U":"Υ","o":"Ϙ","O":"Ϙ",
+    "b":"Β","B":"Β","ş":"Ш","Ş":"Ш","ü":"U","Ü":"U","z":"Ζ","Z":"Ζ","g":"Γ","G":"Γ",
+    "ç":"C","Ç":"C","ğ":"R","Ğ":"R","v":"F","V":"F","c":"G","C":"G","h":"Η","H":"Η",
+    "p":"Π","P":"Π","ö":"Ω","Ö":"Ω","f":"V","F":"V","x":"Ψ","X":"Ψ","j":"Ϸ","J":"Ϸ"
   };
 
   const toLatin = Object.fromEntries(Object.entries(toGreek).map(([k,v])=>[v,k.toUpperCase()]));
