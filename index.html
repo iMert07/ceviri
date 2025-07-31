@@ -103,14 +103,31 @@
       right: 0;
       max-width: 100%;
       background: #eef;
-      padding: 10px 15px; /* padding korundu */
+      padding: 10px 10px; /* padding biraz küçültüldü */
       box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
       z-index: 1000;
+      overflow-x: auto; /* Yatay taşma için kaydırma */
+      white-space: nowrap; /* Satır içi boşluklar taşmasın */
+    }
+    .row {
+      flex-wrap: nowrap; /* Satırdaki tuşlar sarmasın */
+      gap: 4px;
+      justify-content: flex-start; /* Başlangıçtan diz */
     }
     .key {
-      font-size: 16px; /* Mobilde biraz küçült */
-      height: 45px;    /* Mobilde biraz daha küçük tuş yüksekliği */
-      min-height: 45px;
+      flex: 0 0 40px !important; /* Sabit genişlik */
+      max-width: 40px !important;
+      font-size: 14px; /* Küçük yazı */
+      height: 40px;    /* Küçük tuş */
+      min-height: 40px;
+    }
+    .key.wide {
+      flex: 0 0 80px !important;
+      max-width: 80px !important;
+    }
+    .key.extra-wide {
+      flex: 0 0 180px !important;
+      max-width: 180px !important;
     }
   }
 </style>
