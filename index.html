@@ -2,6 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobil uyumluluk eklendi -->
 <title>Çeviri</title>
 
 <!-- Geniş Unicode destekli font -->
@@ -20,7 +21,7 @@
     justify-content: center;
     gap: 20px;
     margin-top: 20px;
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Taşmayı engeller */
   }
 
   textarea {
@@ -30,20 +31,6 @@
     padding: 10px;
     box-sizing: border-box;
     font-family: 'Noto Sans', Arial, sans-serif;
-  }
-
-  /* --- Mobil Uyum --- */
-  @media (max-width: 768px) {
-    .container {
-      flex-direction: column;
-      align-items: center;
-    }
-    textarea {
-      width: 80%;
-    }
-    .keyboard {
-      transform: scale(0.9);
-    }
   }
 
   .keyboard { 
@@ -58,7 +45,6 @@
     display: flex;
     justify-content: center;
     gap: 5px;
-    flex-wrap: wrap;
   }
 
   .key { 
@@ -75,6 +61,18 @@
 
   .key.wide { width: 105px; }
   .key.extra-wide { width: 435px; }
+
+  /* Mobil görünüm için */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      align-items: center;
+    }
+    textarea {
+      width: 90%;
+    }
+    .key.extra-wide { width: 250px; } /* Space tuşunu küçült */
+  }
 </style>
 </head>
 <body>
