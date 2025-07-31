@@ -1,10 +1,65 @@
+body {
+  font-family: 'Noto Sans', Arial, sans-serif;
+  text-align: center;
+  background: #eef;
+  overflow-x: hidden;
+  margin: 0;
+}
+h1 {
+  margin-top: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 20px auto;
+  flex-wrap: wrap;
+  max-width: 900px;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+
+textarea {
+  width: 45%;
+  max-width: 430px;
+  height: 120px;
+  font-size: 20px;
+  padding: 10px;
+  box-sizing: border-box;
+  font-family: 'Noto Sans', Arial, sans-serif;
+}
+
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* gap artık tuşların margin-right ile kontrol ediliyor,
+     keyboard container aralığı için istersen 10px bırakabilirsin */
+  gap: 10px;
+  margin: 30px auto;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  justify-content: flex-start; /* margin ile gap ayarı için */
+  padding: 0 4px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 600px;
+  margin: 10px auto;
+}
+
+/* Ortak tuş stili */
 :root {
   --key-base-width: 38px;
   --key-gap: 6px;
   --key-height: 50px;
 }
 
-/* Ortak tuşlar */
 .key {
   flex: 0 0 var(--key-base-width);
   height: var(--key-height);
@@ -19,37 +74,31 @@
   user-select: none;
   font-family: 'Noto Sans', Arial, sans-serif;
   box-sizing: border-box;
-  /* son tuşta margin-right kalkacak */
+  transition: background 0.2s ease;
 }
 
-.row {
-  display: flex;
-  justify-content: flex-start;
-  padding: 0 4px;
-  box-sizing: border-box;
-  width: 100%;
-  max-width: 600px;
-  margin: 10px auto;
+.key:active {
+  background: #599;
 }
 
-/* Son tuşlarda sağ margin kaldır */
+/* Son tuşlarda margin-right kaldır */
 .row .key:last-child {
   margin-right: 0;
 }
 
-/* Geniş tuş (2x genişlik + 1 gap) */
+/* Geniş tuş (2x tuş genişliği + 1 gap genişliği) */
 .key.wide {
   flex: 0 0 calc(calc(var(--key-base-width) * 2) + var(--key-gap));
   margin-right: var(--key-gap);
 }
 
-/* Çok geniş tuş (8x genişlik + 7 gap) */
+/* Çok geniş tuş (8x tuş genişliği + 7 gap genişliği) */
 .key.extra-wide {
   flex: 0 0 calc(calc(var(--key-base-width) * 8) + calc(var(--key-gap) * 7));
   margin-right: var(--key-gap);
 }
 
-/* Mobil için: küçültme ve margin düzeni */
+/* Responsive için küçültme ve margin düzeni */
 @media (max-width: 768px) {
   :root {
     --key-base-width: 28px;
