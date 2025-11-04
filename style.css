@@ -76,38 +76,38 @@ textarea {
   background: #599;
 }
 
+/* Normal geniş tuşlar */
 .key.wide {
-  flex-grow: 2;
-  flex-shrink: 1;
-  flex-basis: 80px;
+  flex: 0 0 80px;
   max-width: 110px;
   min-width: 65px;
 }
 
+/* Çok geniş tuşlar (örneğin Space) */
 .key.extra-wide {
-  flex-grow: 8;
-  flex-shrink: 1;
-  flex-basis: 340px;
-  max-width: 390px;
-  min-width: 180px;
+  flex: 1;
 }
 
-/* === ALT SATIR (boşluk tuşu satırı) için özel düzen === */
+/* === ALT SATIR (Toggle + Space + Enter) === */
 .keyboard .row:last-child {
   justify-content: center;
   gap: 6px;
 }
 
-/* Küçük tuşlar: 2x + 1y oranına göre */
 .keyboard .row:last-child .key {
-  flex: 0 0 calc((100% - (7 * 6px)) / 14);
-  max-width: calc((100% - (7 * 6px)) / 14);
+  height: 50px;
 }
 
-/* Space tuşu: 8x + 7y oranına göre (8 küçük tuş kadar geniş) */
-.keyboard .row:last-child .key.extra-wide {
-  flex: 0 0 calc(((100% - (7 * 6px)) / 14) * 8 + (7 * 6px));
-  max-width: calc(((100% - (7 * 6px)) / 14) * 8 + (7 * 6px));
+/* Toggle ve Enter tuşları aynı genişlikte */
+.keyboard .row:last-child .key.side {
+  flex: 0 0 90px; /* 2x+1y oranına denk gelecek şekilde */
+  max-width: 100px;
+}
+
+/* Space tuşu kalan tüm alanı dolduracak */
+.keyboard .row:last-child .key.space {
+  flex: 1 1 auto;
+  min-width: 200px;
 }
 
 @media (max-width: 768px) {
@@ -158,20 +158,14 @@ textarea {
     min-width: 50px;
   }
 
-  .key.extra-wide {
-    flex-basis: 140px;
-    max-width: 190px;
-    min-width: 110px;
+  /* Mobil için alt satır */
+  .keyboard .row:last-child .key.side {
+    flex: 0 0 70px;
+    max-width: 80px;
   }
 
-  /* Mobilde alt satır için aynı oran korunur */
-  .keyboard .row:last-child .key {
-    flex: 0 0 calc((100% - (7 * 4px)) / 14);
-    max-width: calc((100% - (7 * 4px)) / 14);
-  }
-
-  .keyboard .row:last-child .key.extra-wide {
-    flex: 0 0 calc(((100% - (7 * 4px)) / 14) * 8 + (7 * 4px));
-    max-width: calc(((100% - (7 * 4px)) / 14) * 8 + (7 * 4px));
+  .keyboard .row:last-child .key.space {
+    flex: 1 1 auto;
+    min-width: 120px;
   }
 }
