@@ -32,7 +32,8 @@ const toGreek = {
   "ö":"Ω","Ö":"Ω",
   "f":"V","F":"V",
   "x":"Ψ","X":"Ψ",
-  "j":"Ϸ","J":"Ϸ"
+  "j":"Ϸ","J":"Ϸ",
+  "0":"θ"
 };
 
 const toLatin = Object.fromEntries(Object.entries(toGreek).map(([k,v])=>[v,k.toUpperCase()]));
