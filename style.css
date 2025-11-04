@@ -76,16 +76,17 @@ textarea {
   background: #599;
 }
 
-/* Normal geniş tuşlar */
+/* SHIFT genişliğinde olan tuşlar */
 .key.wide {
-  flex: 0 0 80px;
-  max-width: 110px;
-  min-width: 65px;
+  flex: 0 0 120px; /* 2x + 1y oranına denk */
+  max-width: 130px;
+  min-width: 110px;
 }
 
-/* Çok geniş tuşlar (örneğin Space) */
+/* SPACE genişliği */
 .key.extra-wide {
-  flex: 1;
+  flex: 1 1 auto;
+  min-width: 300px;
 }
 
 /* === ALT SATIR (Toggle + Space + Enter) === */
@@ -94,22 +95,18 @@ textarea {
   gap: 6px;
 }
 
-.keyboard .row:last-child .key {
-  height: 50px;
-}
-
-/* Toggle ve Enter tuşları aynı genişlikte */
 .keyboard .row:last-child .key.side {
-  flex: 0 0 90px; /* 2x+1y oranına denk gelecek şekilde */
-  max-width: 100px;
+  flex: 0 0 120px; /* Toggle ve Enter = Shift ile aynı */
+  max-width: 130px;
+  min-width: 110px;
 }
 
-/* Space tuşu kalan tüm alanı dolduracak */
 .keyboard .row:last-child .key.space {
   flex: 1 1 auto;
-  min-width: 200px;
+  min-width: 300px;
 }
 
+/* Mobil düzen */
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
@@ -152,20 +149,14 @@ textarea {
     box-sizing: border-box;
   }
 
-  .key.wide {
-    flex-basis: 65px;
-    max-width: 85px;
-    min-width: 50px;
-  }
-
-  /* Mobil için alt satır */
+  /* Mobilde de aynı oran korunur */
   .keyboard .row:last-child .key.side {
-    flex: 0 0 70px;
-    max-width: 80px;
+    flex: 0 0 85px;
+    max-width: 95px;
   }
 
   .keyboard .row:last-child .key.space {
     flex: 1 1 auto;
-    min-width: 120px;
+    min-width: 180px;
   }
 }
