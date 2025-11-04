@@ -1,162 +1,281 @@
 body {
+
   font-family: 'Noto Sans', Arial, sans-serif;
+
   text-align: center;
+
   background: #eef;
+
   overflow-x: hidden;
+
   margin: 0;
+
 }
 
 h1 {
+
   margin-top: 20px;
+
 }
+
+
 
 .container {
+
   display: flex;
+
   justify-content: center;
+
   gap: 15px;
+
   margin: 20px auto;
+
   flex-wrap: wrap;
+
   max-width: 900px;
+
   padding: 0 10px;
+
   box-sizing: border-box;
+
 }
+
+
 
 textarea {
+
   width: 45%;
+
   max-width: 430px;
+
   height: 120px;
+
   font-size: 20px;
+
   padding: 10px;
+
   box-sizing: border-box;
+
   font-family: 'Noto Sans', Arial, sans-serif;
+
 }
+
+
 
 .keyboard {
+
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
+
   gap: 10px;
+
   margin: 30px auto;
+
   width: 100%;
+
   max-width: 600px;
+
   box-sizing: border-box;
+
 }
+
+
 
 .row {
+
   display: flex;
+
   justify-content: center;
-  gap: 6px; /* tuşlar arası boşluk */
+
+  gap: 6px;           /* tuşlar arası boşluk */
+
   width: 100%;
+
   padding: 0 4px;
+
   box-sizing: border-box;
+
   flex-wrap: nowrap;
+
   overflow: hidden;
+
 }
+
+
 
 .key {
+
   flex-grow: 1;
+
   flex-shrink: 1;
+
   flex-basis: 38px;
+
   max-width: 55px;
+
   min-width: 28px;
+
   height: 50px;
+
   display: flex;
+
   justify-content: center;
+
   align-items: center;
+
   background: #7bb;
+
   cursor: pointer;
+
   font-size: 20px;
+
   border-radius: 5px;
+
   user-select: none;
+
   font-family: 'Noto Sans', Arial, sans-serif;
+
   box-sizing: border-box;
+
 }
+
+
 
 .key:active {
+
   background: #599;
+
 }
 
-/* SHIFT genişliğinde olan tuşlar */
+
+
 .key.wide {
-  flex: 0 0 120px; /* 2x + 1y oranına denk */
-  max-width: 130px;
-  min-width: 110px;
+
+  flex-grow: 2;
+
+  flex-shrink: 1;
+
+  flex-basis: 80px;
+
+  max-width: 110px;
+
+  min-width: 65px;
+
+
+
 }
 
-/* SPACE genişliği */
 .key.extra-wide {
-  flex: 1 1 auto;
-  min-width: 300px;
+
+  flex-grow: 8;
+
+  flex-shrink: 1;
+
+  flex-basis: 340px;
+
+  max-width: 390px;
+
+  min-width: 180px;
+
 }
 
-/* === ALT SATIR (Toggle + Space + Enter) === */
-.keyboard .row:last-child {
-  justify-content: center;
-  gap: 6px;
-}
 
-.keyboard .row:last-child .key.side {
-  flex: 0 0 120px; /* Toggle ve Enter = Shift ile aynı */
-  max-width: 130px;
-  min-width: 110px;
-}
 
-.keyboard .row:last-child .key.space {
-  flex: 1 1 auto;
-  min-width: 300px;
-}
-
-/* Mobil düzen */
 @media (max-width: 768px) {
+
   .container {
+
     flex-direction: column;
+
     align-items: center;
+
     margin-bottom: 220px;
+
     max-width: 100%;
+
     padding: 0 15px;
+
   }
 
   textarea {
+
     width: 100%;
+
     max-width: none;
+
   }
 
   .keyboard {
+
     position: fixed;
+
     bottom: 0;
+
     left: 0;
+
     right: 0;
+
     max-width: 100%;
+
     background: #eef;
+
     padding: 10px 12px;
+
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+
     z-index: 1000;
+
     box-sizing: border-box;
+
   }
 
   .row {
+
     flex-wrap: nowrap;
+
     padding: 0 3px;
+
     gap: 4px;
+
   }
 
   .key {
+
     flex-basis: 28px;
+
     max-width: 38px;
+
     min-width: 22px;
+
     height: 40px;
+
     font-size: 16px;
+
     box-sizing: border-box;
+
   }
 
-  /* Mobilde de aynı oran korunur */
-  .keyboard .row:last-child .key.side {
-    flex: 0 0 85px;
-    max-width: 95px;
+  .key.wide {
+
+    flex-basis: 65px;
+
+    max-width: 85px;
+
+    min-width: 50px;
+
   }
 
-  .keyboard .row:last-child .key.space {
-    flex: 1 1 auto;
-    min-width: 180px;
+  .key.extra-wide {
+
+    flex-basis: 140px;
+
+    max-width: 190px;
+
+    min-width: 110px;
+
   }
+
 }
