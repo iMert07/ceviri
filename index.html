@@ -79,7 +79,6 @@
     const latin = document.getElementById('latin');
     const greek = document.getElementById('greek');
     let activeInput = latin;
-    let isShiftActive = false;
 
     const toGreek = {
         "a":"Α","A":"Α","e":"Ε","E":"Ε","i":"Ͱ","İ":"Ͱ","n":"Ν","N":"Ν","r":"Ρ","R":"Ρ","l":"L","L":"L","ı":"Ь","I":"Ь","k":"Κ","K":"Κ","d":"D","D":"D","m":"Μ","M":"Μ","t":"Τ","T":"Τ","y":"R","Y":"R","s":"S","S":"S","u":"U","U":"U","o":"Q","O":"Q","b":"Β","B":"Β","ş":"Ш","Ş":"Ш","ü":"Υ","Ü":"Υ","z":"Ζ","Z":"Ζ","g":"G","G":"G","ç":"C","Ç":"C","ğ":"Γ","Ğ":"Γ","v":"V","V":"V","c":"J","h":"Η","H":"Η","p":"Π","P":"Π","ö":"Ω","Ö":"Ω","f":"F","F":"F","x":"Ψ","X":"Ψ","j":"Σ","J":"Σ","0":"θ"
@@ -112,34 +111,16 @@
             } else if (action === 'enter') { 
                 activeInput.value += '\n'; 
             } else if (action === 'shift') {
-                isShiftActive = !isShiftActive;
-                key.classList.toggle('bg-primary', isShiftActive);
-                key.classList.toggle('text-white', isShiftActive);
-                updateKeyVisuals();
+                // Shift sadece görsel, işlevsiz.
             } else if (!action) { 
-                const finalChar = isShiftActive ? content.toUpperCase() : content.toLowerCase();
-                activeInput.value += finalChar;
-                
-                if(isShiftActive) {
-                    isShiftActive = false;
-                    const shiftKey = document.querySelector('[data-action="shift"]');
-                    shiftKey.classList.remove('bg-primary', 'text-white');
-                    updateKeyVisuals();
-                }
+                // Doğrudan tuşun üzerindeki karakteri (Büyük) ekle
+                activeInput.value += content; 
             }
 
             if (activeInput === latin) { greek.value = translateText(latin.value, "toGreek"); }
             else { latin.value = translateText(greek.value, "toLatin"); }
         });
     });
-
-    function updateKeyVisuals() {
-        document.querySelectorAll('.key').forEach(k => {
-            if(!k.dataset.action && k.innerText.length === 1) {
-                k.style.textTransform = isShiftActive ? 'uppercase' : 'lowercase';
-            }
-        });
-    }
 </script>
 </body>
 </html>
