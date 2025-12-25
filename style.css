@@ -1,142 +1,106 @@
-body {
-  font-family: 'Noto Sans', Arial, sans-serif;
-  text-align: center;
-  background: #eef;
-  overflow-x: hidden;
-  margin: 0;
-}
+/* style.css */
 
-h1 {
-  margin-top: 20px;
-}
-
-/* ÜST ALAN */
-.container {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin: 20px auto;
-  flex-wrap: wrap;
-  max-width: 900px;
-  padding: 0 10px;
-  box-sizing: border-box;
-}
-
-textarea {
-  width: 45%;
-  max-width: 430px;
-  height: 120px;
-  font-size: 20px;
-  padding: 10px;
-  box-sizing: border-box;
-  font-family: 'Noto Sans', Arial, sans-serif;
-}
-
-/* KLAVYE GENEL */
+/* Klavye Konteynırı */
 .keyboard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  margin: 30px auto;
-  width: 100%;
-  max-width: 600px;
-  box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #e2e8f0;
+    border-radius: 1.25rem;
+    box-sizing: border-box;
 }
 
-/* SATIR */
+.dark .keyboard {
+    background: #111a22;
+    border: 1px solid #233648;
+}
+
+/* Satır Düzeni */
 .row {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  padding: 0 4px;
-  box-sizing: border-box;
-  flex-wrap: nowrap;
-  overflow: hidden;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
 }
 
-/* TUŞ TEMEL */
+/* Tuş Tasarımı */
 .key {
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 38px;
-  max-width: 55px;
-  min-width: 30px;
-  height: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #7bb;
-  cursor: pointer;
-  font-size: 20px;
-  border-radius: 6px;
-  user-select: none;
-  font-family: 'Noto Sans', Arial, sans-serif;
-  box-sizing: border-box;
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 40px;
+    max-width: 60px;
+    min-width: 35px;
+    height: 54px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 8px;
+    user-select: none;
+    border-bottom: 3px solid #cbd5e1;
+    color: #334155;
+    transition: all 0.1s ease;
+}
+
+.dark .key {
+    background: #233648;
+    color: #f8fafc;
+    border-bottom: 3px solid #00000060;
 }
 
 .key:active {
-  background: #599;
+    transform: translateY(2px);
+    border-bottom: 0;
+    background: #137fec !important;
+    color: white !important;
 }
 
-/* GENİŞ TUŞ (Shift, Delete...) */
+/* Özel Tuşlar */
 .key.wide {
-  flex-grow: 2;
-  flex-basis: calc(38px * 2 + 6px);
-  max-width: 125px;
+    flex-grow: 2;
+    flex-basis: 100px;
+    max-width: 140px;
+    background: #cbd5e1;
 }
 
-/* SPACE TUŞU */
+.dark .key.wide {
+    background: #324d67;
+}
+
 .key.extra-wide {
-  flex-grow: 8;
-  flex-basis: calc(38px * 8 + 6px * 7);
-  max-width: 460px;
+    flex-grow: 10;
+    flex-basis: 400px;
+    max-width: 550px;
 }
 
-/* 📱 Mobil Optimizasyon */
+/* Mobil Görünüm */
 @media (max-width: 768px) {
+    .keyboard {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-width: 100%;
+        border-radius: 1.5rem 1.5rem 0 0;
+        padding: 10px 5px 30px 5px;
+        z-index: 1000;
+        box-shadow: 0 -10px 25px rgba(0,0,0,0.3);
+    }
+    
+    /* İçeriğin klavye altında kalmaması için */
+    main { padding-bottom: 320px !important; }
 
-  .container {
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 230px;
-    max-width: 100%;
-    padding: 0 15px;
-  }
-
-  .keyboard {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    max-width: 100%;
-    background: #eef;
-    padding: 10px 10px;
-    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.25);
-    z-index: 1000;
-  }
-
-  .row {
-    gap: 4px;
-    padding: 0 6px;
-  }
-
-  .key {
-    flex-basis: 30px;
-    max-width: 40px;
-    min-width: 24px;
-    height: 42px; /* yükseklik azaldı */
-    font-size: 17px;
-  }
-
-  .key.wide {
-    flex-basis: calc(30px * 2 + 4px);
-    max-width: 95px;
-  }
-
-  .key.extra-wide {
-    flex-basis: calc(30px * 8 + 4px * 7);
-    max-width: 330px;
-  }
+    .key {
+        flex-basis: 30px;
+        height: 48px;
+        font-size: 16px;
+    }
 }
