@@ -13,7 +13,7 @@
     background: #e2e8f0;
     border-radius: 1.25rem;
     box-sizing: border-box;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .dark .keyboard {
@@ -32,8 +32,8 @@
 
 /* --- TUŞ TASARIMI --- */
 .key {
-    flex: 1; /* Tuşların eşit dağılmasını sağlar */
-    min-width: 0; /* Mobilde taşmayı önleyen kritik ayar */
+    flex: 1;
+    min-width: 0;
     max-width: 60px;
     height: 54px;
     display: flex;
@@ -65,7 +65,7 @@
 
 /* --- ÖZEL TUŞLAR --- */
 .key.wide {
-    flex: 2; /* Normal tuşun 2 katı genişlik */
+    flex: 2;
     max-width: 120px;
     background: #cbd5e1;
     font-size: 14px;
@@ -77,41 +77,54 @@
 }
 
 .key.extra-wide {
-    flex: 8; /* Boşluk tuşu için geniş alan */
+    flex: 8;
     max-width: 500px;
 }
 
-/* --- 📱 MOBİL OPTİMİZASYON (TAŞMA ÇÖZÜMÜ) --- */
+/* --- 📱 MOBİL OPTİMİZASYON (İDEAL BOŞLUKLU) --- */
 @media (max-width: 768px) {
     .keyboard {
         position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        max-width: 100%;
-        margin: 0;
-        border-radius: 1.5rem 1.5rem 0 0;
-        padding: 10px 4px 25px 4px; /* Kenar boşluklarını daralttık */
+        /* Ekranın en altına yapışmaması için alttan ve yanlardan boşluk */
+        bottom: 12px; 
+        left: 8px;
+        right: 8px;
+        
+        width: calc(100% - 16px); /* Yan boşlukları hesaba katar */
+        max-width: calc(100% - 16px);
+        
+        /* Yuvarlatılmış köşeler her taraftan (modern telefon klavyesi tipi) */
+        border-radius: 1.25rem; 
+        
+        padding: 10px 6px 10px 6px;
         z-index: 1000;
-        box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        background: #f1f5f9;
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .dark .keyboard {
+        background: #1a2633;
+        border: 1px solid #2d4358;
     }
 
     .row {
-        gap: 4px; /* Tuşlar arası boşluğu mobilde azalttık */
+        gap: 4px; /* Tuşlar arası ideal mesafe */
+        margin-bottom: 4px;
     }
 
     .key {
-        height: 48px;
-        font-size: 15px; /* Harf boyutunu mobilde biraz küçülttük */
+        height: 46px; /* Mobilde parmak ergonomisi için ideal yükseklik */
+        font-size: 15px;
         border-radius: 6px;
     }
 
     .key.wide {
-        flex: 1.8; /* Shift ve Delete mobilde çok yer kaplamasın */
+        flex: 1.6;
     }
 
-    /* Klavye sabit olduğu için içeriğin arkada kalmasını engeller */
+    /* Sayfa içeriği klavyenin arkasında kalmasın diye padding */
     main { 
-        padding-bottom: 280px !important; 
+        padding-bottom: 300px !important; 
     }
 }
