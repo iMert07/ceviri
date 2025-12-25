@@ -69,7 +69,7 @@
             <div class="row">
                 <div class="key wide fn-key" data-action="reset">Sıfırla</div>
                 <div class="key extra-wide" data-action="space">Boşluk</div>
-                <div class="key wide bg-primary text-white" data-action="enter">Enter</div>
+                <div class="key wide fn-key" data-action="enter">Enter</div>
             </div>
         </div>
     </section>
@@ -117,14 +117,13 @@
                 key.classList.toggle('text-white', isShiftActive);
                 updateKeyVisuals();
             } else if (!action) { 
-                // Shift durumuna göre harfi ekle
                 const finalChar = isShiftActive ? content.toUpperCase() : content.toLowerCase();
                 activeInput.value += finalChar;
                 
-                // Shift'i bir basımdan sonra kapat (Opsiyonel: kalıcı istersen bu satırı sil)
-                if(isShiftActive && action !== 'shift') {
+                if(isShiftActive) {
                     isShiftActive = false;
-                    document.querySelector('[data-action="shift"]').classList.remove('bg-primary', 'text-white');
+                    const shiftKey = document.querySelector('[data-action="shift"]');
+                    shiftKey.classList.remove('bg-primary', 'text-white');
                     updateKeyVisuals();
                 }
             }
