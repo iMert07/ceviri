@@ -1,18 +1,19 @@
 /* style.css */
 
-/* Klavye Konteynırı */
+/* --- KLAVYE ANA KUTUSU --- */
 .keyboard {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
+    margin: 20px auto;
     width: 100%;
     max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    padding: 15px;
     background: #e2e8f0;
     border-radius: 1.25rem;
     box-sizing: border-box;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
 
 .dark .keyboard {
@@ -20,33 +21,32 @@
     border: 1px solid #233648;
 }
 
-/* Satır Düzeni */
+/* SATIR DÜZENİ */
 .row {
     display: flex;
     justify-content: center;
     gap: 6px;
     width: 100%;
+    box-sizing: border-box;
 }
 
-/* Tuş Tasarımı */
+/* --- TUŞ TASARIMI --- */
 .key {
-    flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 40px;
+    flex: 1; /* Tuşların eşit dağılmasını sağlar */
+    min-width: 0; /* Mobilde taşmayı önleyen kritik ayar */
     max-width: 60px;
-    min-width: 35px;
     height: 54px;
     display: flex;
     justify-content: center;
     align-items: center;
     background: #ffffff;
+    color: #1e293b;
     cursor: pointer;
     font-size: 18px;
     font-weight: 600;
     border-radius: 8px;
     user-select: none;
     border-bottom: 3px solid #cbd5e1;
-    color: #334155;
     transition: all 0.1s ease;
 }
 
@@ -63,12 +63,13 @@
     color: white !important;
 }
 
-/* Özel Tuşlar */
+/* --- ÖZEL TUŞLAR --- */
 .key.wide {
-    flex-grow: 2;
-    flex-basis: 100px;
-    max-width: 140px;
+    flex: 2; /* Normal tuşun 2 katı genişlik */
+    max-width: 120px;
     background: #cbd5e1;
+    font-size: 14px;
+    text-transform: uppercase;
 }
 
 .dark .key.wide {
@@ -76,12 +77,11 @@
 }
 
 .key.extra-wide {
-    flex-grow: 10;
-    flex-basis: 400px;
-    max-width: 550px;
+    flex: 8; /* Boşluk tuşu için geniş alan */
+    max-width: 500px;
 }
 
-/* Mobil Görünüm */
+/* --- 📱 MOBİL OPTİMİZASYON (TAŞMA ÇÖZÜMÜ) --- */
 @media (max-width: 768px) {
     .keyboard {
         position: fixed;
@@ -89,18 +89,29 @@
         left: 0;
         right: 0;
         max-width: 100%;
+        margin: 0;
         border-radius: 1.5rem 1.5rem 0 0;
-        padding: 10px 5px 30px 5px;
+        padding: 10px 4px 25px 4px; /* Kenar boşluklarını daralttık */
         z-index: 1000;
-        box-shadow: 0 -10px 25px rgba(0,0,0,0.3);
+        box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.3);
     }
-    
-    /* İçeriğin klavye altında kalmaması için */
-    main { padding-bottom: 320px !important; }
+
+    .row {
+        gap: 4px; /* Tuşlar arası boşluğu mobilde azalttık */
+    }
 
     .key {
-        flex-basis: 30px;
         height: 48px;
-        font-size: 16px;
+        font-size: 15px; /* Harf boyutunu mobilde biraz küçülttük */
+        border-radius: 6px;
+    }
+
+    .key.wide {
+        flex: 1.8; /* Shift ve Delete mobilde çok yer kaplamasın */
+    }
+
+    /* Klavye sabit olduğu için içeriğin arkada kalmasını engeller */
+    main { 
+        padding-bottom: 280px !important; 
     }
 }
