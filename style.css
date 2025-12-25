@@ -1,11 +1,11 @@
 /* style.css */
 
-/* --- KLAVYE ANA KUTUSU --- */
+/* --- KLAVYE ANA KUTUSU (Masaüstü ve Genel) --- */
 .keyboard {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 6px; /* Dikeyde tuşlar arası boşluk azaltıldı */
     margin: 20px auto;
     width: 100%;
     max-width: 800px;
@@ -25,7 +25,7 @@
 .row {
     display: flex;
     justify-content: center;
-    gap: 6px;
+    gap: 6px; /* Yatay boşluk */
     width: 100%;
     box-sizing: border-box;
 }
@@ -35,7 +35,7 @@
     flex: 1;
     min-width: 0;
     max-width: 60px;
-    height: 54px;
+    height: 52px; /* Dikeyde biraz daha daraltıldı */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,7 +47,7 @@
     border-radius: 8px;
     user-select: none;
     border-bottom: 3px solid #cbd5e1;
-    transition: all 0.1s ease;
+    transition: all 0.05s ease;
 }
 
 .dark .key {
@@ -68,7 +68,7 @@
     flex: 2;
     max-width: 120px;
     background: #cbd5e1;
-    font-size: 14px;
+    font-size: 13px;
     text-transform: uppercase;
 }
 
@@ -81,26 +81,27 @@
     max-width: 500px;
 }
 
-/* --- 📱 MOBİL OPTİMİZASYON (İDEAL BOŞLUKLU) --- */
+/* --- 📱 MOBİL OPTİMİZASYON (KOMPAKT VE AŞAĞI KAYDIRILMIŞ) --- */
 @media (max-width: 768px) {
     .keyboard {
         position: fixed;
-        /* Ekranın en altına yapışmaması için alttan ve yanlardan boşluk */
-        bottom: 12px; 
+        /* Klavyeyi biraz daha aşağı kaydırdık (8px ideal bir mesafe) */
+        bottom: 8px; 
         left: 8px;
         right: 8px;
         
-        width: calc(100% - 16px); /* Yan boşlukları hesaba katar */
+        width: calc(100% - 16px);
         max-width: calc(100% - 16px);
         
-        /* Yuvarlatılmış köşeler her taraftan (modern telefon klavyesi tipi) */
-        border-radius: 1.25rem; 
+        border-radius: 1rem; 
+        /* Dikey boşluğu azaltmak için padding ve gap değerleri düşürüldü */
+        padding: 8px 5px 12px 5px; 
+        gap: 4px; 
         
-        padding: 10px 6px 10px 6px;
         z-index: 1000;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
         background: #f1f5f9;
-        border: 1px solid rgba(0,0,0,0.1);
+        border: 1px solid rgba(0,0,0,0.08);
     }
 
     .dark .keyboard {
@@ -109,22 +110,22 @@
     }
 
     .row {
-        gap: 4px; /* Tuşlar arası ideal mesafe */
-        margin-bottom: 4px;
+        gap: 4px; /* Tuşlar arası yatay boşluk */
     }
 
     .key {
-        height: 46px; /* Mobilde parmak ergonomisi için ideal yükseklik */
+        height: 44px; /* Mobilde dikeyde tuş yüksekliği azaltıldı */
         font-size: 15px;
-        border-radius: 6px;
+        border-radius: 5px;
+        border-bottom-width: 2px; /* Mobilde daha ince gölge */
     }
 
     .key.wide {
-        flex: 1.6;
+        flex: 1.7;
     }
 
-    /* Sayfa içeriği klavyenin arkasında kalmasın diye padding */
+    /* Klavye aşağı kaydığı için sayfa alt boşluğunu da güncelledik */
     main { 
-        padding-bottom: 300px !important; 
+        padding-bottom: 260px !important; 
     }
 }
