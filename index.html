@@ -1,45 +1,115 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html class="dark" lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Çeviri</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans&subset=greek&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="style.css" />
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Orum Dili Çeviri Merkezi</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#137fec",
+                        "background-dark": "#101922",
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body>
-<h1>Orum Dili Klavyesi</h1>
-<div class="container">
-  <textarea id="latin" placeholder="Eski..."></textarea>
-  <textarea id="greek" placeholder="Yeni..."></textarea>
-</div>
-<div class="keyboard">
-  <div class="row">
-    <div class="key">θ</div><div class="key">1</div><div class="key">2</div><div class="key">3</div>
-    <div class="key">4</div><div class="key">5</div><div class="key">6</div><div class="key">7</div>
-    <div class="key">8</div><div class="key">9</div><div class="key">Φ</div><div class="key">Λ</div>
-  </div>
-  <div class="row">
-    <div class="key">Ϙ</div><div class="key">Ш</div><div class="key">E</div><div class="key">R</div>
-    <div class="key">T</div><div class="key">Y</div><div class="key">U</div><div class="key">Ͱ</div>
-    <div class="key">Ω</div><div class="key">P</div><div class="key">Γ</div><div class="key">Σ</div>
-  </div>
-  <div class="row">
-    <div class="key">,</div><div class="key">A</div><div class="key">S</div><div class="key">D</div>
-    <div class="key">F</div><div class="key">G</div><div class="key">H</div><div class="key">J</div>
-    <div class="key">K</div><div class="key">L</div><div class="key">Ь</div><div class="key">.</div>
-  </div>
-  <div class="row">
-    <div class="key wide" data-action="shift">Shift</div><div class="key">Z</div><div class="key">Ψ</div>
-    <div class="key">C</div><div class="key">V</div><div class="key">B</div><div class="key">N</div>
-    <div class="key">M</div><div class="key">Π</div><div class="key wide" data-action="delete">Delete</div>
-  </div>
-  <div class="row">
-    <div class="key wide" data-action="toggle">Toggle</div>
-    <div class="key extra-wide" data-action="space">Space</div>
-    <div class="key wide" data-action="enter">Enter</div>
-  </div>
-</div>
-<script src="script.js"></script>
+<body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-white font-sans min-h-screen flex flex-col">
+
+<header class="sticky top-0 z-50 flex items-center justify-between border-b border-slate-200 dark:border-[#233648] bg-white dark:bg-[#111a22] px-6 py-3">
+    <div class="flex items-center gap-4">
+        <div class="size-8 flex items-center justify-center rounded-lg bg-primary/10 text-primary">
+            <span class="material-symbols-outlined text-2xl">translate</span>
+        </div>
+        <h2 class="text-lg font-bold">Orum Dili Çeviri Merkezi</h2>
+    </div>
+</header>
+
+<main class="flex-1 w-full max-w-[1200px] mx-auto px-4 py-6 flex flex-col gap-8">
+    <section class="flex flex-col lg:flex-row gap-4 h-auto lg:h-[350px]">
+        <div class="flex-1 flex flex-col bg-white dark:bg-[#192633] rounded-xl border border-slate-200 dark:border-[#324d67] overflow-hidden shadow-sm">
+            <div class="p-3 border-b border-slate-200 dark:border-[#324d67] text-sm font-semibold text-slate-500">Latin Alfabesi</div>
+            <textarea id="latin" class="flex-1 p-5 text-lg bg-transparent border-none focus:ring-0 resize-none" placeholder="Buraya yazın..."></textarea>
+        </div>
+
+        <div class="flex-1 flex flex-col bg-slate-100 dark:bg-[#111a22] rounded-xl border border-slate-200 dark:border-[#324d67] overflow-hidden shadow-inner">
+            <div class="p-3 border-b border-slate-200 dark:border-[#324d67] text-sm font-semibold text-slate-500">Orum (Yeni) Alfabesi</div>
+            <textarea id="greek" class="flex-1 p-5 text-lg bg-transparent border-none focus:ring-0 resize-none" placeholder="Sonuç burada görünecek..."></textarea>
+        </div>
+    </section>
+
+    <section class="keyboard-container">
+        <div class="keyboard">
+            <div class="row">
+                <div class="key">θ</div><div class="key">1</div><div class="key">2</div><div class="key">3</div><div class="key">4</div><div class="key">5</div><div class="key">6</div><div class="key">7</div><div class="key">8</div><div class="key">9</div><div class="key">Φ</div><div class="key">Λ</div>
+            </div>
+            <div class="row">
+                <div class="key">Ϙ</div><div class="key">Ш</div><div class="key">E</div><div class="key">R</div><div class="key">T</div><div class="key">Y</div><div class="key">U</div><div class="key">Ͱ</div><div class="key">Ω</div><div class="key">P</div><div class="key">Γ</div><div class="key">Σ</div>
+            </div>
+            <div class="row">
+                <div class="key">,</div><div class="key">A</div><div class="key">S</div><div class="key">D</div><div class="key">F</div><div class="key">G</div><div class="key">H</div><div class="key">J</div><div class="key">K</div><div class="key">L</div><div class="key">Ь</div><div class="key">.</div>
+            </div>
+            <div class="row">
+                <div class="key wide" data-action="shift">Shift</div>
+                <div class="key">Z</div><div class="key">Ψ</div><div class="key">C</div><div class="key">V</div><div class="key">B</div><div class="key">N</div><div class="key">M</div><div class="key">Π</div>
+                <div class="key wide bg-red-500/10 text-red-500" data-action="delete">
+                    <span class="material-symbols-outlined">backspace</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="key wide" onclick="location.reload()">Sıfırla</div>
+                <div class="key extra-wide" data-action="space">Boşluk</div>
+                <div class="key wide bg-primary text-white" data-action="enter">Enter</div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script>
+    const latin = document.getElementById('latin');
+    const greek = document.getElementById('greek');
+    let activeInput = latin;
+
+    const toGreek = {
+        "a":"Α","A":"Α","e":"Ε","E":"Ε","i":"Ͱ","İ":"Ͱ","n":"Ν","N":"Ν","r":"Ρ","R":"Ρ","l":"L","L":"L","ı":"Ь","I":"Ь","k":"Κ","K":"Κ","d":"D","D":"D","m":"Μ","M":"Μ","t":"Τ","T":"Τ","y":"R","Y":"R","s":"S","S":"S","u":"U","U":"U","o":"Q","O":"Q","b":"Β","B":"Β","ş":"Ш","Ş":"Ш","ü":"Υ","Ü":"Υ","z":"Ζ","Z":"Ζ","g":"G","G":"G","ç":"C","Ç":"C","ğ":"Γ","Ğ":"Γ","v":"V","V":"V","c":"J","h":"Η","H":"Η","p":"Π","P":"Π","ö":"Ω","Ö":"Ω","f":"F","F":"F","x":"Ψ","X":"Ψ","j":"Σ","J":"Σ","0":"θ"
+    };
+
+    const toLatin = Object.fromEntries(Object.entries(toGreek).map(([k,v])=>[v,k.toUpperCase()]));
+
+    function translateText(text, dir){
+        const map = dir === "toGreek" ? toGreek : toLatin;
+        return text.split('').map(ch => map[ch] || ch).join('');
+    }
+
+    latin.addEventListener('input', () => { greek.value = translateText(latin.value, "toGreek"); });
+    greek.addEventListener('input', () => { latin.value = translateText(greek.value, "toLatin"); });
+    latin.addEventListener('focus', () => activeInput = latin);
+    greek.addEventListener('focus', () => activeInput = greek);
+
+    document.querySelectorAll('.key').forEach(key => {
+        key.addEventListener('click', () => {
+            const action = key.dataset.action;
+            const content = key.innerText.trim();
+            if (action === 'delete') { activeInput.value = activeInput.value.slice(0, -1); }
+            else if (action === 'space') { activeInput.value += ' '; }
+            else if (action === 'enter') { activeInput.value += '\n'; }
+            else if (!action) { activeInput.value += content; }
+
+            if (activeInput === latin) { greek.value = translateText(latin.value, "toGreek"); }
+            else { latin.value = translateText(greek.value, "toLatin"); }
+        });
+    });
+</script>
 </body>
 </html>
