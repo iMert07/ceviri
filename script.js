@@ -77,3 +77,58 @@ document.getElementById('themeToggle').addEventListener('click', function() {
     document.documentElement.classList.toggle('dark');
     localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
 });
+
+/* ==========================================================================
+   4. ÖZEL ZAMAN SİSTEMİ (21 Mart 1071 - 20/640 Kuralı)
+   ========================================================================== */
+function toBase12(n, pad = 2) {
+    const digits = "θ123456789ΦΛ";
+    if (n === 0) return "θ".repeat(pad);
+    let res = ""; let num = Math.abs(Math.floor(n));
+    while (num > 0) { res = digits[num % 12] + res; num = Math.floor(num / 12); }
+    return res.padStart(pad, 'θ');
+}
+
+function calculateCustomDate(now) {
+    const gregBase = new Date(1071, 2, 21);
+    const diff = now - gregBase;
+    const daysPassed = Math.floor(diff / 86400000);
+
+    let year = 0;
+    let daysCounter = 0;
+    
+    while (true) {
+        let yearDays = 365;
+        let nextYear = year + 1;
+        if (nextYear % 20 === 0 && nextYear % 640 !== 0) {
+            yearDays += 5; 
+        }
+        if (daysCounter + yearDays > daysPassed) break;
+        daysCounter += yearDays;
+        year++;
+    }
+
+    const dayOfYear = daysPassed - daysCounter;
+    const month = Math.floor(dayOfYear / 30) + 1;
+    const day = (dayOfYear % 30) + 1;
+    const base12Year = year + 1 + 10368; 
+
+    return { base12: `${toBase12(day)}.${toBase12(month)}.${toBase12(base12Year, 4)}` };
+}
+
+function updateTime() {
+    const now = new Date();
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 4, 30, 0);
+    if (now < todayStart) todayStart.setDate(todayStart.getDate() - 1);
+    
+    const totalSecs = Math.floor(((now - todayStart) / 1000) * 2);
+    const h = Math.floor(totalSecs / 14400) % 12;
+    const m = Math.floor((totalSecs / 120) % 120);
+    const s = totalSecs % 120;
+
+    document.getElementById('clock').textContent = `${toBase12(h)}.${toBase12(m)}.${toBase12(s)}`;
+    document.getElementById('date').textContent = calculateCustomDate(now).base12;
+}
+
+setInterval(updateTime, 100);
+updateTime();
