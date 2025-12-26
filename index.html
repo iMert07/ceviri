@@ -2,7 +2,7 @@
 <html class="dark" lang="tr">
 <head>
     <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
     <title>Anatolya'ya Dönüş</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -28,60 +28,104 @@
             document.documentElement.classList.remove('dark')
         }
     </script>
-</head>
-<body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-white font-sans min-h-screen flex flex-col">
+    <style>
+        html, body { min-height: 100%; overflow-y: auto; margin: 0; padding: 0; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .active-tab { background-color: #137fec; color: white !important; }
+        .active-tab span { color: white !important; }
+        .inactive-tab { background-color: transparent; color: #94a3b8; }
+        .dark .inactive-tab { color: #64748b; }
+        
+        @media (min-width: 1024px) {
+            textarea { font-size: 1.5rem !important; }
+            h2 { font-size: 1.5rem !important; }
+        }
 
-<header class="sticky top-0 z-50 bg-white dark:bg-[#111a22] border-b border-slate-200 dark:border-[#233648]">
-    <div class="flex items-center justify-between px-6 py-3">
+        /* MOBİL ÖZEL AYARLAR */
+        @media (max-width: 768px) {
+            /* Klavyeyi sağa ve aşağı doğru genişlettik */
+            .keyboard { 
+                width: 97% !important; /* Sağa doğru biraz daha genişlettik */
+                max-width: 550px !important; 
+                margin: 0 0 0 auto !important; /* Sola yaslamayı azaltıp sağa alan açtık */
+                padding: 8px !important;
+                border-radius: 1rem !important;
+            }
+            /* Konteynırı en alta ve sağa yasladık */
+            #kb-container { 
+                padding-top: 5px !important;
+                padding-bottom: 0px !important; /* Aşağıya tam dayandı */
+                padding-right: 0px !important;
+                display: flex;
+                justify-content: flex-end; /* Sağ tarafa odakladık */
+            }
+            .key { 
+                height: 38px !important; 
+                font-size: 1rem !important; 
+                border-bottom-width: 2px !important;
+            }
+            textarea { 
+                font-size: 1.1rem !important; 
+                height: 140px !important; 
+                padding: 10px !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-white font-sans flex flex-col">
+
+<header class="sticky top-0 bg-white dark:bg-[#111a22] border-b border-slate-200 dark:border-[#233648] z-50">
+    <div class="flex items-center justify-between px-6 py-2">
         <h2 class="text-base sm:text-lg font-bold truncate">Anatolya'ya Dönüş</h2>
-        <button id="themeToggle" class="p-2 flex items-center justify-center bg-transparent border-none text-slate-500 dark:text-slate-400 hover:opacity-70 transition-all focus:outline-none">
-            <span class="material-symbols-outlined text-[28px]">globe_book</span>
+        <button id="themeToggle" class="p-1 flex items-center justify-center bg-transparent border-none text-slate-500 dark:text-slate-400 focus:outline-none">
+            <span class="material-symbols-outlined text-[26px]">globe_book</span>
         </button>
     </div>
 
-    <div class="flex items-center gap-2 px-4 pb-3 overflow-x-auto no-scrollbar scroll-smooth">
-        <button class="nav-tab flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all active-tab" data-value="Alfabe" data-icon="translate">
-            <span class="material-symbols-outlined text-[20px]">translate</span>
+    <div class="flex items-center gap-2 px-4 pb-1.5 overflow-x-auto no-scrollbar scroll-smooth">
+        <button class="nav-tab flex items-center gap-2 px-4 py-1.5 rounded-full whitespace-nowrap transition-all active-tab" data-value="Alfabe">
+            <span class="material-symbols-outlined text-[18px]">translate</span>
             <span class="text-sm font-medium">Alfabe</span>
         </button>
-        <button class="nav-tab flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all inactive-tab" data-value="Uzunluk" data-icon="straighten">
-            <span class="material-symbols-outlined text-[20px]">straighten</span>
+        <button class="nav-tab flex items-center gap-2 px-4 py-1.5 rounded-full whitespace-nowrap transition-all inactive-tab" data-value="Uzunluk">
+            <span class="material-symbols-outlined text-[18px]">straighten</span>
             <span class="text-sm font-medium">Uzunluk</span>
         </button>
-        <button class="nav-tab flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all inactive-tab" data-value="Sıcaklık" data-icon="thermostat">
-            <span class="material-symbols-outlined text-[20px]">thermostat</span>
+        <button class="nav-tab flex items-center gap-2 px-4 py-1.5 rounded-full whitespace-nowrap transition-all inactive-tab" data-value="Sıcaklık">
+            <span class="material-symbols-outlined text-[18px]">thermostat</span>
             <span class="text-sm font-medium">Sıcaklık</span>
         </button>
-        <button class="nav-tab flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all inactive-tab" data-value="Hacim" data-icon="opacity">
-            <span class="material-symbols-outlined text-[20px]">opacity</span>
+        <button class="nav-tab flex items-center gap-2 px-4 py-1.5 rounded-full whitespace-nowrap transition-all inactive-tab" data-value="Hacim">
+            <span class="material-symbols-outlined text-[18px]">opacity</span>
             <span class="text-sm font-medium">Hacim</span>
         </button>
-        <button class="nav-tab flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all inactive-tab" data-value="Ağırlık" data-icon="fitness_center">
-            <span class="material-symbols-outlined text-[20px]">fitness_center</span>
+        <button class="nav-tab flex items-center gap-2 px-4 py-1.5 rounded-full whitespace-nowrap transition-all inactive-tab" data-value="Ağırlık">
+            <span class="material-symbols-outlined text-[18px]">fitness_center</span>
             <span class="text-sm font-medium">Ağırlık</span>
         </button>
-        <button class="nav-tab flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all inactive-tab" data-value="Zaman" data-icon="schedule">
-            <span class="material-symbols-outlined text-[20px]">schedule</span>
+        <button class="nav-tab flex items-center gap-2 px-4 py-1.5 rounded-full whitespace-nowrap transition-all inactive-tab" data-value="Zaman">
+            <span class="material-symbols-outlined text-[18px]">schedule</span>
             <span class="text-sm font-medium">Zaman</span>
         </button>
     </div>
 </header>
 
-<main class="flex-1 w-full max-w-[1200px] mx-auto px-4 py-6 flex flex-col gap-6">
-    <section class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<main class="flex-1 flex flex-col p-3 gap-4 lg:gap-8">
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
         <div class="flex flex-col gap-2">
-            <div id="label-input" class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Eski Alfabe</div>
-            <textarea id="latin" class="w-full h-[180px] lg:h-[250px] p-5 text-lg bg-white dark:bg-[#192633] rounded-xl border border-slate-200 dark:border-[#324d67] shadow-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none text-slate-900 dark:text-white" placeholder="Buraya yazın..."></textarea>
+            <div id="label-input" class="text-[10px] lg:text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Eski Alfabe</div>
+            <textarea id="latin" class="w-full h-[200px] lg:h-[300px] p-5 bg-white dark:bg-[#192633] rounded-xl border border-slate-200 dark:border-[#324d67] shadow-sm focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all resize-none text-slate-900 dark:text-white" placeholder="Buraya yazın..."></textarea>
         </div>
 
         <div class="flex flex-col gap-2">
-            <div id="label-output" class="text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Yeni Alfabe</div>
-            <textarea id="greek" class="w-full h-[180px] lg:h-[250px] p-5 text-lg bg-slate-100 dark:bg-[#111a22] rounded-xl border border-slate-200 dark:border-[#324d67] shadow-inner focus:ring-0 resize-none text-slate-900 dark:text-white" placeholder="Sonuç burada görünecek..."></textarea>
+            <div id="label-output" class="text-[10px] lg:text-xs font-bold uppercase tracking-wider text-slate-500 ml-1">Yeni Alfabe</div>
+            <textarea id="greek" class="w-full h-[200px] lg:h-[300px] p-5 bg-slate-100 dark:bg-[#111a22] rounded-xl border border-slate-200 dark:border-[#324d67] shadow-inner focus:ring-0 resize-none text-slate-900 dark:text-white" placeholder="Sonuç burada görünecek..."></textarea>
         </div>
     </section>
 
-    <section class="keyboard-container" id="kb-container">
-        <div class="keyboard" id="mainKeyboard">
+    <section id="kb-container">
+        <div class="keyboard !my-0" id="mainKeyboard">
             <div class="row">
                 <div class="key">θ</div><div class="key">1</div><div class="key">2</div><div class="key">3</div><div class="key">4</div><div class="key">5</div><div class="key">6</div><div class="key">7</div><div class="key">8</div><div class="key">9</div><div class="key">Φ</div><div class="key">Λ</div>
             </div>
@@ -106,15 +150,6 @@
         </div>
     </section>
 </main>
-
-<style>
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .active-tab { background-color: #137fec; color: white !important; }
-    .active-tab span { color: white !important; }
-    .inactive-tab { background-color: transparent; color: #94a3b8; }
-    .dark .inactive-tab { color: #64748b; }
-</style>
 
 <script src="script.js"></script>
 </body>
