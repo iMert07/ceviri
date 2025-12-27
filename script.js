@@ -1,13 +1,12 @@
-const latin = document.getElementById('latin');
-const greek = document.getElementById('greek');
+// --- ELEMENT SEÇİCİLER ---
+const inputArea = document.getElementById('input-area');
+const outputArea = document.getElementById('output-area');
 const pillInputLabel = document.getElementById('pill-input-label');
 const pillOutputLabel = document.getElementById('pill-output-label');
 const dropdownInput = document.getElementById('dropdown-input');
 const dropdownOutput = document.getElementById('dropdown-output');
-const kbContainer = document.getElementById('kb-container');
-let activeInput = latin;
 
-// Aktif birimler
+let activeInput = inputArea;
 let currentInputUnit = "Eski Alfabe";
 let currentOutputUnit = "Yeni Alfabe";
 
@@ -31,6 +30,29 @@ const unitData = {
 const toGreek = { "a":"Α","A":"Α", "e":"Ε","E":"Ε", "i":"Ͱ","İ":"Ͱ", "n":"Ν","N":"Ν", "r":"Ρ","R":"Ρ", "l":"L","L":"L", "ı":"Ь","I":"Ь", "k":"Κ","K":"Κ", "d":"D","D":"D", "m":"Μ","M":"Μ", "t":"Τ","T":"Τ", "y":"R","Y":"R", "s":"S","S":"S", "u":"U","U":"U", "o":"Q","O":"Q", "b":"Β","B":"Β", "ş":"Ш","Ş":"Ш", "ü":"Υ","Ü":"Υ", "z":"Ζ","Z":"Ζ", "g":"G","G":"G", "ç":"C","Ç":"C", "ğ":"Γ","Ğ":"Γ", "v":"V","V":"V", "c":"J","C":"J", "h":"Η","H":"Η", "p":"Π","P":"Π", "ö":"Ω","Ö":"Ω", "f":"F","F":"F", "x":"Ψ","X":"Ψ", "j":"Σ","J":"Σ", "0":"θ" };
 const toLatin = Object.fromEntries(Object.entries(toGreek).map(([k,v])=>[v,k.toUpperCase()]));
 
+// --- MERKEZİ DÖNÜŞÜM MOTORU ---
+function performConversion() {
+    const activeTab = document.querySelector('.active-tab');
+    if (!activeTab) return;
+    const mode = activeTab.dataset.value;
+    const text = inputArea.value;
+
+    if (!text) { outputArea.value = ""; return; }
+
+    if (mode === "Alfabe") {
+        if (currentInputUnit === "Eski Alfabe" && currentOutputUnit === "Yeni Alfabe") {
+            outputArea.value = text.split('').map(ch => toGreek[ch] || ch).join('');
+        } else if (currentInputUnit === "Yeni Alfabe" && currentOutputUnit === "Eski Alfabe") {
+            outputArea.value = text.split('').map(ch => toLatin[ch] || ch).join('');
+        } else {
+            outputArea.value = text;
+        }
+    } else {
+        // Diğer modlar için hesaplama şablonu
+        outputArea.value = `[${mode}] Dönüşüm yapılıyor: ${currentInputUnit} -> ${currentOutputUnit}`;
+    }
+}
+
 // Dropdown Mantığı
 function toggleDropdown(type) {
     const el = type === 'input' ? dropdownInput : dropdownOutput;
@@ -52,12 +74,13 @@ function selectUnit(type, value) {
 
     if (type === 'input') {
         currentInputUnit = value;
-        if (currentInputUnit === currentOutputUnit) currentOutputUnit = options.find(o => o !== value);
+        if (currentInputUnit === currentOutputUnit) currentOutputUnit = options.find(o => o !== value) || options[0];
     } else {
         currentOutputUnit = value;
-        if (currentOutputUnit === currentInputUnit) currentInputUnit = options.find(o => o !== value);
+        if (currentOutputUnit === currentInputUnit) currentInputUnit = options.find(o => o !== value) || options[0];
     }
     renderPills();
+    performConversion();
 }
 
 function renderDropdowns(mode) {
@@ -68,6 +91,7 @@ function renderDropdowns(mode) {
     dropdownInput.innerHTML = options.map(opt => `<div class="dropdown-item" onclick="selectUnit('input', '${opt}')">${opt}</div>`).join('');
     dropdownOutput.innerHTML = options.map(opt => `<div class="dropdown-item" onclick="selectUnit('output', '${opt}')">${opt}</div>`).join('');
     renderPills();
+    performConversion();
 }
 
 function renderPills() {
@@ -77,36 +101,27 @@ function renderPills() {
     dropdownOutput.classList.remove('show');
 }
 
-// Çeviri ve Klavye
-function translate(text, dir){
-    const map = dir === "toGreek" ? toGreek : toLatin;
-    return text.split('').map(ch => map[ch] || ch).join('');
-}
-
-latin.addEventListener('input', () => { greek.value = translate(latin.value, "toGreek"); });
-greek.addEventListener('input', () => { latin.value = translate(greek.value, "toLatin"); });
-latin.addEventListener('focus', () => activeInput = latin);
-greek.addEventListener('focus', () => activeInput = greek);
+// Olay Dinleyicileri
+inputArea.addEventListener('input', performConversion);
+inputArea.addEventListener('focus', () => activeInput = inputArea);
 
 document.querySelectorAll('.key').forEach(key => {
     key.addEventListener('click', (e) => {
         e.preventDefault();
         const action = key.dataset.action;
-        if(action === 'delete') activeInput.value = activeInput.value.slice(0,-1);
-        else if(action === 'enter') activeInput.value += '\n';
-        else if(action === 'space') activeInput.value += ' ';
-        else if(action === 'reset') { latin.value = ''; greek.value = ''; }
-        else if(!key.classList.contains('fn-key')) activeInput.value += key.innerText;
-        if(activeInput === latin) greek.value = translate(latin.value, "toGreek");
-        else latin.value = translate(greek.value, "toLatin");
+        if(action === 'delete') inputArea.value = inputArea.value.slice(0,-1);
+        else if(action === 'reset') { inputArea.value = ''; outputArea.value = ''; }
+        else if(action === 'space') inputArea.value += ' ';
+        else if(action === 'enter') inputArea.value += '\n';
+        else if(!key.classList.contains('fn-key')) inputArea.value += key.innerText;
+        performConversion();
     });
 });
 
-const navTabs = document.querySelectorAll('.nav-tab');
-navTabs.forEach(tab => {
+document.querySelectorAll('.nav-tab').forEach(tab => {
     tab.addEventListener('click', function() {
-        navTabs.forEach(t => { t.classList.remove('active-tab'); t.classList.add('inactive-tab'); });
-        this.classList.add('active-tab'); this.classList.remove('inactive-tab');
+        document.querySelectorAll('.nav-tab').forEach(t => t.classList.replace('active-tab', 'inactive-tab'));
+        this.classList.replace('inactive-tab', 'active-tab');
         renderDropdowns(this.dataset.value);
     });
 });
@@ -116,7 +131,7 @@ document.getElementById('themeToggle').addEventListener('click', function() {
     localStorage.setItem('color-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
 });
 
-// Zaman Fonksiyonları
+// --- ÖZEL ZAMAN FONKSİYONLARI (ANATOLYA) ---
 function toBase12(n, pad = 2) {
     const digits = "θ123456789ΦΛ";
     if (n === 0) return "θ".repeat(pad);
@@ -156,6 +171,7 @@ function updateTime() {
     document.getElementById('date').textContent = calculateCustomDate(now).base12;
 }
 
+// Başlatıcılar
 setInterval(updateTime, 100);
 updateTime();
 renderDropdowns("Alfabe");
