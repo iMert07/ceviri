@@ -13,7 +13,7 @@ let currentOutputUnit = "Yeni Alfabe";
 const unitData = {
     "Alfabe": ["Eski Alfabe", "Yeni Alfabe"],
     "Sayı": ["İkilik (2)", "Onluk (10)", "Anatolya (12)", "On Altılık (16)"],
-    "Para": ["Lira", "Akçe", "Dollar", "Euro", "Altın (Ons)" "Gümüş (Ons)"],
+    "Para": ["Lira", "Akçe", "Dollar", "Euro", "Altın (Ons)", "Gümüş (Ons)"], // Hatalı virgül ve tırnaklar düzeltildi
     "Zaman": [
         "Milisaniye", "Salise (Anatolya)", "Salise", 
         "Saniye (Anatolya)", "Saniye", "Dakika", 
@@ -45,6 +45,9 @@ const conversionRates = {
     "Kütle": {
         "Miligram (10⁻³)": 0.000001, "Dirhem (12⁻³)": 0.0005, "Gram (10⁰)": 0.001, "Miskal (12⁻²)": 0.006,
         "Batman (12⁻¹)": 0.072, "Paund": 0.45359, "Okka (12⁰)": 0.864, "Kilogram (10³)": 1, "Kantar (12¹)": 10.368, "Ton (10⁶)": 1000
+    },
+    "Para": {
+        "Lira": 1, "Akçe": 0.008333, "Dollar": 35, "Euro": 37, "Altın (Ons)": 90000, "Gümüş (Ons)": 1100
     },
     "Veri": { "Byte": 1, "Kilobyte": 1024, "Megabyte": 1048576, "Gigabyte": 1073741824, "Terabyte": 1099511627776, "Anatolya Verisi": 1200 },
     "Zaman": { 
@@ -104,7 +107,7 @@ function normalizeInput(text) { return text.toUpperCase().replace(/θ/g, '0').re
 function isValidInput(text, unit) {
     const anaDigits = "θΦΛ";
     let allowedChars = "";
-    const specialUnits = ["Anatolya", "Gün", "Ay", "Yıl", "Arşın", "Menzil", "Endaze", "Rubu", "Kerrab", "Berid", "Fersah", "Merhale", "Okka", "Kantar", "Batman", "Miskal", "Dirhem"];
+    const specialUnits = ["Anatolya", "Gün", "Ay", "Yıl", "Arşın", "Menzil", "Endaze", "Rubu", "Kerrab", "Berid", "Fersah", "Merhale", "Okka", "Kantar", "Batman", "Miskal", "Dirhem", "Akçe"];
     const isSpecial = specialUnits.some(s => unit.includes(s));
     
     if (unit.includes("(2)")) allowedChars = "01,.";
@@ -159,7 +162,7 @@ function performConversion() {
     else if (conversionRates[mode] || mode === "Zaman") {
         if (!isValidInput(text, currentInputUnit)) { outputArea.value = "Geçersiz Karakter"; return; }
         let numericValue;
-        const specialUnits = ["Anatolya", "Gün", "Ay", "Yıl", "Arşın", "Menzil", "Endaze", "Rubu", "Kerrab", "Berid", "Fersah", "Merhale", "Okka", "Kantar", "Batman", "Miskal", "Dirhem"];
+        const specialUnits = ["Anatolya", "Gün", "Ay", "Yıl", "Arşın", "Menzil", "Endaze", "Rubu", "Kerrab", "Berid", "Fersah", "Merhale", "Okka", "Kantar", "Batman", "Miskal", "Dirhem", "Akçe"];
         const isInputSpecial = specialUnits.some(s => currentInputUnit.includes(s));
         
         if (isInputSpecial) {
@@ -175,8 +178,10 @@ function performConversion() {
         if (isNaN(numericValue)) { outputArea.value = "Hata"; return; }
         
         let baseValue;
-        const currentModeRates = conversionRates[mode] || conversionRates["Zaman"];
+        const currentModeRates = conversionRates[mode] || (mode === "Zaman" ? conversionRates["Zaman"] : null);
         
+        if (!currentModeRates) return;
+
         if (currentInputUnit === "Yıl (Gregoryen)") baseValue = getGregorianDays(numericValue) * 86400;
         else if (currentInputUnit === "Yıl (Anatolya)") baseValue = getAnatolyaDays(numericValue) * 86400;
         else baseValue = numericValue * (currentModeRates[currentInputUnit] || 1);
