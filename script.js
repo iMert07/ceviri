@@ -13,7 +13,7 @@ let currentOutputUnit = "Yeni Alfabe";
 const unitData = {
     "Alfabe": ["Eski Alfabe", "Yeni Alfabe"],
     "Sayı": ["İkilik (2)", "Onluk (10)", "Anatolya (12)", "On Altılık (16)"],
-    "Para": ["Lira", "Akçe", "Dollar", "Euro", "Altın (Ons)" "Gümüş (Ons)",],
+    "Para": ["Lira", "Akçe", "Dollar", "Euro", "Altın (Ons)" "Gümüş (Ons)"],
     "Zaman": [
         "Milisaniye", "Salise (Anatolya)", "Salise", 
         "Saniye (Anatolya)", "Saniye", "Dakika", 
