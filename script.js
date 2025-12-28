@@ -22,7 +22,7 @@ const unitData = {
     ],
     "Uzunluk": [
         "Kerrab (12⁻³)", "Milimetre (10⁻³)", "Rubu (12⁻²)", "Santimetre (10⁻²)", 
-        "İnç", "Endaze (12⁻¹)", "Fit (ft)", "Arşın (12⁰)", 
+        "İnç", "Endaze (12⁻¹)", "Fit", "Arşın (12⁰)", 
         "Yard", "Metre (10⁰)", "Berid (12¹)", "Menzil (12²)", 
         "Kilometre (10³)", "Fersah (12³)", "Mil", "Merhale (12⁴)"
     ],
