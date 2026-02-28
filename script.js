@@ -179,7 +179,7 @@ function performConversion() {
         if (currentInputUnit === "Celsius") fahr = (parseFloat(text.replace(',', '.')) * 1.8) + 32;
         else if (currentInputUnit === "Kelvin") fahr = ((parseFloat(text.replace(',', '.')) - 273.15) * 1.8) + 32;
         else if (currentInputUnit === "Fahrenheit") fahr = parseFloat(text.replace(',', '.'));
-        else if (currentInputUnit === "Anatolya (Fahrenheit)") {
+        else if (currentInputUnit === "Anatolya (Fahrenheit, 12)") {
             let input = normalizeInput(text.toUpperCase()).replace(',','.');
             const parts = input.split('.');
             let val = parseInt(parts[0], 12);
