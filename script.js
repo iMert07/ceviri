@@ -40,7 +40,7 @@ const unitData = {
         "Kantar (12¹)", "Ton (10⁶)"
     ],
     "Konum": ["Boylam (Derece)", "Meridyen (Anatolya)"],
-    "Sıcaklık": ["Celsius", "Anatolya (Fahrenheit)", "Fahrenheit", "Kelvin"],
+    "Sıcaklık": ["Celsius", "Anatolya (Fahrenheit, 12)", "Fahrenheit", "Kelvin"],
     "Veri": ["Byte", "Kilobyte", "Megabyte", "Gigabyte", "Terabyte", "Anatolya Verisi"]
 };
 
