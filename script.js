@@ -30,7 +30,8 @@ const unitData = {
     "Kütle": ["Miligram (10⁻³)", "Dirhem (12⁻³)", "Gram (10⁰)", "Miskal (12⁻²)", "Batman (12⁻¹)", "Paund", "Okka (12⁰)", "Kilogram (10³)", "Kantar (12¹)", "Ton (10⁶)"],
     "Hacim": ["Mililitre (10⁻³)", "Sıvı Ons (ABD)", "Miskal (12⁻¹)", "Şinik (12⁰)", "Litre (10⁰)", "Kıyye (12¹)", "Galon (ABD)", "Kile (12²)", "Metreküp (10³)"],
     "Hız": ["Kilometre/Saat", "Fersah/Saat (12)", "Mil/Saat"],
-    "Konum": ["Boylam (Derece)", "Meridyen (Anatolya)"],
+    "Meridyen": ["Boylam (Derece)", "Meridyen (Anatolya)"],
+    "Paralel": ["Enlem (Derece)", "Paralel (Anatolya)"],
     "Sıcaklık": ["Celsius", "Anatolya (Fahrenheit, 12)", "Fahrenheit", "Kelvin"],
     "Veri": ["Byte", "Kilobyte", "Megabyte", "Gigabyte", "Terabyte", "Anatolya Verisi"]
 };
@@ -50,20 +51,16 @@ const conversionRates = {
 const toGreek = { "a":"Α","A":"Α", "e":"Ε","E":"Ε", "i":"Ͱ","İ":"Ͱ", "n":"Ν","N":"Ν", "r":"Ρ","R":"Ρ", "l":"L","L":"L", "ı":"Ь","I":"Ь", "k":"Κ","K":"Κ", "d":"D","D":"D", "m":"Μ","M":"Μ", "t":"Τ","T":"Τ", "y":"R","Y":"R", "s":"S","S":"S", "u":"U","U":"U", "o":"Q","O":"Q", "b":"Β","B":"Β", "ş":"Ш","Ş":"Ш", "ü":"Υ","Ü":"Υ", "z":"Ζ","Z":"Ζ", "g":"G","G":"G", "ç":"C","Ç":"C", "ğ":"Γ","Ğ":"Γ", "v":"V","V":"V", "c":"J","C":"J", "h":"Η","H":"Η", "p":"Π","P":"Π", "ö":"Ω","Ö":"Ω", "f":"F","F":"F", "x":"Ψ","X":"Ψ", "j":"Σ","J":"Σ", "0":"0" };
 const toLatin = Object.fromEntries(Object.entries(toGreek).map(([k,v])=>[v,k.toUpperCase()]));
 
-// --- KLAVYE YÖNETİMİ ---
-
-// Kutunun kendisine dokunulduğunda telefon klavyesini aç
+// --- KLAVYE ODAK YÖNETİMİ ---
 inputArea.addEventListener('focus', () => {
     inputArea.setAttribute('inputmode', 'text');
 });
 
-// Kutudan çıkıldığında veya site klavyesi kullanılırken inputmode'u kapatmak için yardımcı fonksiyon
 function disableSystemKeyboard() {
     inputArea.setAttribute('inputmode', 'none');
 }
 
-// --- FONKSİYONLAR ---
-
+// --- TABAN VE SAYI DÖNÜŞÜMLERİ ---
 function toBase12(n, pad = 1, isAnatolya = true) {
     const digits = isAnatolya ? "0123456789ΦΛ" : "0123456789AB";
     let num = Math.abs(Math.floor(n));
@@ -93,7 +90,9 @@ function toBase12Float(n, isAnatolya = true) {
     return res;
 }
 
-function normalizeInput(text) { return text.toUpperCase().replace(/θ/g, '0').replace(/Φ/g, 'A').replace(/Λ/g, 'B'); }
+function normalizeInput(text) { 
+    return text.toUpperCase().replace(/θ/g, '0').replace(/Φ/g, 'A').replace(/Λ/g, 'B'); 
+}
 
 function isValidInput(text, unit) {
     const anaDigits = "0ΦΛ";
@@ -113,7 +112,8 @@ function universalNumberConvert(text, fromUnit, toUnit) {
         return 10;
     };
     let input = normalizeInput(text.toUpperCase()).replace(',', '.');
-    const fromBase = getBase(fromUnit); const toBase = getBase(toUnit);
+    const fromBase = getBase(fromUnit); 
+    const toBase = getBase(toUnit);
     const parts = input.split('.');
     let dec = parseInt(parts[0], fromBase);
     if (parts[1]) {
@@ -136,9 +136,13 @@ function performConversion() {
     if (!text) { outputArea.value = ""; return; }
 
     if (mode === "Alfabe") {
-        outputArea.value = (currentInputUnit === "Eski Alfabe") ? text.split('').map(ch => toGreek[ch] || ch).join('') : text.split('').map(ch => toLatin[ch] || ch).join('');
+        outputArea.value = (currentInputUnit === "Eski Alfabe") 
+            ? text.split('').map(ch => toGreek[ch] || ch).join('') 
+            : text.split('').map(ch => toLatin[ch] || ch).join('');
     } 
-    else if (mode === "Sayı") { outputArea.value = universalNumberConvert(text, currentInputUnit, currentOutputUnit); }
+    else if (mode === "Sayı") { 
+        outputArea.value = universalNumberConvert(text, currentInputUnit, currentOutputUnit); 
+    }
     else if (mode === "Sıcaklık") {
         let fahr;
         const val = parseFloat(text.replace(',', '.'));
@@ -186,7 +190,9 @@ function performConversion() {
                 const stdDigits = "0123456789ABCDEF";
                 for (let i = 0; i < parts[1].length; i++) numericValue += stdDigits.indexOf(parts[1][i]) * Math.pow(12, -(i+1));
             }
-        } else { numericValue = parseFloat(text.replace(',', '.')); }
+        } else { 
+            numericValue = parseFloat(text.replace(',', '.')); 
+        }
         
         if (isNaN(numericValue)) { outputArea.value = "Hata"; return; }
 
@@ -201,11 +207,13 @@ function performConversion() {
             else if (decStr === "~0") outputArea.value = "~0";
             else if (ana === decStr) outputArea.value = ana;
             else outputArea.value = `${ana} [${decStr}]`;
-        } else { outputArea.value = formatCompact(result); }
+        } else { 
+            outputArea.value = formatCompact(result); 
+        }
     }
 }
 
-// --- UI ETKİLEŞİM ---
+// --- UI ETKİLEŞİM VE MENÜLER ---
 function selectUnit(type, value) {
     if (type === 'input') {
         if (value === currentOutputUnit) currentOutputUnit = currentInputUnit;
@@ -214,7 +222,8 @@ function selectUnit(type, value) {
         if (value === currentInputUnit) currentInputUnit = currentOutputUnit;
         currentOutputUnit = value;
     }
-    renderPills(); performConversion();
+    renderPills(); 
+    performConversion();
 }
 
 function renderDropdowns(mode) {
@@ -227,15 +236,31 @@ function renderDropdowns(mode) {
     else if (mode === "Sıcaklık") { currentInputUnit = "Celsius"; currentOutputUnit = "Anatolya (Fahrenheit, 12)"; }
     else if (mode === "Hacim") { currentInputUnit = "Litre (10⁰)"; currentOutputUnit = "Şinik (12⁰)"; }
     else if (mode === "Hız") { currentInputUnit = "Kilometre/Saat"; currentOutputUnit = "Fersah/Saat (12)"; }
-    else { currentInputUnit = options[0]; currentOutputUnit = options[1] || options[0]; }
+    else { currentInputUnit = options[0] || ""; currentOutputUnit = options[1] || options[0] || ""; }
+
     const createItems = (type) => options.map(opt => `<div class="dropdown-item" onclick="selectUnit('${type}', '${opt}')">${opt}</div>`).join('');
-    dropdownInput.innerHTML = createItems('input'); dropdownOutput.innerHTML = createItems('output');
-    renderPills(); performConversion();
+    dropdownInput.innerHTML = createItems('input'); 
+    dropdownOutput.innerHTML = createItems('output');
+    renderPills(); 
+    performConversion();
 }
 
-function renderPills() { pillInputLabel.innerText = currentInputUnit; pillOutputLabel.innerText = currentOutputUnit; dropdownInput.classList.remove('show'); dropdownOutput.classList.remove('show'); }
+function renderPills() { 
+    pillInputLabel.innerText = currentInputUnit; 
+    pillOutputLabel.innerText = currentOutputUnit; 
+    dropdownInput.classList.remove('show'); 
+    dropdownOutput.classList.remove('show'); 
+}
 
 function toggleDropdown(type) { 
+    if (type === 'calendar') {
+        const ddCal = document.getElementById('dropdown-calendar');
+        ddCal?.classList.toggle('show');
+        dropdownInput?.classList.remove('show');
+        dropdownOutput?.classList.remove('show');
+        return;
+    }
+    document.getElementById('dropdown-calendar')?.classList.remove('show');
     const el = type === 'input' ? dropdownInput : dropdownOutput; 
     const other = type === 'input' ? dropdownOutput : dropdownInput; 
     other.classList.remove('show'); 
@@ -244,17 +269,143 @@ function toggleDropdown(type) {
 
 window.addEventListener('click', function(event) {
     if (!event.target.closest('.unit-pill') && !event.target.closest('.dropdown-panel')) {
-        dropdownInput.classList.remove('show');
-        dropdownOutput.classList.remove('show');
+        dropdownInput?.classList.remove('show');
+        dropdownOutput?.classList.remove('show');
+        document.getElementById('dropdown-calendar')?.classList.remove('show');
     }
 });
 
-// --- KLAVYE ETKİLEŞİMİ (ODAĞI VE İMLECİ BOZMAYAN YENİ SİSTEM) ---
+// --- TAKVİM ÇEVİRİ VE GÖRÜNÜM SİSTEMİ ---
+let calendarCurrentDate = new Date();
+let calendarMode = 'greg-to-ana';
+
+const monthNamesTR = [
+    "Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran",
+    "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"
+];
+
+function selectCalendarMode(mode) {
+    calendarMode = mode;
+    const pill = document.getElementById('pill-calendar-mode');
+    if (pill) pill.innerText = mode === 'greg-to-ana' ? 'Gregoryen → Anatolya' : 'Anatolya → Gregoryen';
+    const dd = document.getElementById('dropdown-calendar');
+    if (dd) dd.classList.remove('show');
+    renderCalendar();
+}
+
+function convertGregorianToAnatolya(dateObj) {
+    const gregBase = new Date(1071, 2, 21);
+    const diff = dateObj.getTime() - gregBase.getTime();
+    const daysPassed = Math.floor(diff / 86400000);
+    
+    let year = 0;
+    let daysCounter = 0;
+    while (true) {
+        let yearDays = 365;
+        let nextYear = year + 1;
+        if (nextYear % 20 === 0 && nextYear % 640 !== 0) yearDays += 5;
+        if (daysCounter + yearDays > daysPassed) break;
+        daysCounter += yearDays;
+        year++;
+    }
+    
+    const remainingDays = daysPassed - daysCounter;
+    const day = (remainingDays % 30) + 1;
+    const month = Math.floor(remainingDays / 30) + 1;
+    const anaYear = year + 10369;
+
+    return {
+        day,
+        month,
+        year: anaYear,
+        formatted: `${toBase12(day, 2, true)}.${toBase12(month, 2, true)}.${toBase12(anaYear, 4, true)}`
+    };
+}
+
+function renderCalendar() {
+    const grid = document.getElementById('calendarGrid');
+    const header = document.getElementById('calendarMonthHeader');
+    if (!grid || !header) return;
+
+    grid.innerHTML = '';
+    const year = calendarCurrentDate.getFullYear();
+    const month = calendarCurrentDate.getMonth();
+
+    header.textContent = `${monthNamesTR[month]} ${year}`;
+
+    const firstDayIndex = (new Date(year, month, 1).getDay() + 6) % 7;
+    const totalDays = new Date(year, month + 1, 0).getDate();
+
+    for (let i = 0; i < firstDayIndex; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'h-16 sm:h-20 bg-transparent rounded-lg opacity-20';
+        grid.appendChild(emptyCell);
+    }
+
+    const today = new Date();
+
+    for (let d = 1; d <= totalDays; d++) {
+        const cellDate = new Date(year, month, d);
+        const ana = convertGregorianToAnatolya(cellDate);
+        const isToday = today.getFullYear() === year && today.getMonth() === month && today.getDate() === d;
+
+        const cell = document.createElement('div');
+        cell.className = `h-16 sm:h-20 p-1.5 rounded-lg border flex flex-col justify-between cursor-pointer transition-all ${
+            isToday 
+                ? 'bg-primary/10 border-primary dark:border-primary' 
+                : 'bg-slate-50 dark:bg-[#111a22]/70 border-slate-200 dark:border-[#324d67] hover:border-primary/50'
+        }`;
+
+        cell.innerHTML = `
+            <div class="flex justify-between items-center">
+                <span class="text-xs sm:text-sm font-bold ${isToday ? 'text-primary' : ''}">${d}</span>
+                <span class="text-[10px] text-slate-400 font-mono">${toBase12(d, 2, true)}</span>
+            </div>
+            <div class="text-right">
+                <span class="text-[10px] sm:text-xs font-mono font-semibold text-primary block leading-none">
+                    ${ana.formatted.split('.')[0]}.${ana.formatted.split('.')[1]}
+                </span>
+                <span class="text-[8px] text-slate-400 leading-none">Ay: ${ana.month}</span>
+            </div>
+        `;
+
+        cell.onclick = () => {
+            document.querySelectorAll('#calendarGrid > div').forEach(el => el.classList.remove('ring-2', 'ring-primary'));
+            cell.classList.add('ring-2', 'ring-primary');
+            const info = document.getElementById('selectedDateInfo');
+            if (info) {
+                info.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-base">event</span>
+                        <strong>Gregoryen:</strong> ${d} ${monthNamesTR[month]} ${year}
+                    </div>
+                    <div class="flex items-center gap-2 font-mono">
+                        <span class="material-symbols-outlined text-primary text-base">sync_alt</span>
+                        <strong>Anatolya Takvimi:</strong> ${ana.formatted} (${ana.year} Yılı, ${ana.month}. Ay)
+                    </div>
+                `;
+            }
+        };
+
+        grid.appendChild(cell);
+    }
+}
+
+document.getElementById('prevMonthBtn')?.addEventListener('click', () => {
+    calendarCurrentDate.setMonth(calendarCurrentDate.getMonth() - 1);
+    renderCalendar();
+});
+
+document.getElementById('nextMonthBtn')?.addEventListener('click', () => {
+    calendarCurrentDate.setMonth(calendarCurrentDate.getMonth() + 1);
+    renderCalendar();
+});
+
+// --- KLAVYE ETKİLEŞİMİ ---
 document.querySelectorAll('.key').forEach(key => { 
-    // mousedown kullanıyoruz çünkü click'ten önce çalışır ve odağı durdurabiliriz
     key.addEventListener('mousedown', (e) => {
-        e.preventDefault(); // Metin kutusunun odağını kaybetmesini ve telefon klavyesinin tetiklenmesini engeller
-        disableSystemKeyboard(); // Site klavyesi kullanılıyorken sistem klavyesini "none" yap
+        e.preventDefault();
+        disableSystemKeyboard();
     });
 
     key.addEventListener('click', () => {
@@ -278,7 +429,7 @@ document.querySelectorAll('.key').forEach(key => {
         else if (action === 'enter') {
             inputArea.value = currentVal.slice(0, start) + '\n' + currentVal.slice(end);
             inputArea.selectionStart = inputArea.selectionEnd = start + 1;
-        }
+        } 
         else if (action === 'shift') { /* Shift Pasif */ }
         else {
             inputArea.value = currentVal.slice(0, start) + keyText + currentVal.slice(end);
@@ -286,22 +437,40 @@ document.querySelectorAll('.key').forEach(key => {
         }
 
         performConversion();
-        // Mobilde imleç kaybolmaması için odağı geri veriyoruz ama inputmode="none" olduğu için klavye açılmıyor
         inputArea.focus(); 
     }); 
 });
 
 inputArea.addEventListener('input', performConversion);
 
+// --- SEKME DEĞİŞİMİ ---
 document.querySelectorAll('.nav-tab').forEach(tab => { 
     tab.addEventListener('click', function() {
         document.querySelectorAll('.nav-tab').forEach(t => t.classList.replace('active-tab', 'inactive-tab'));
-        this.classList.replace('inactive-tab', 'active-tab'); renderDropdowns(this.dataset.value);
+        this.classList.replace('inactive-tab', 'active-tab');
+        
+        const mode = this.dataset.value;
+        const converterView = document.getElementById('converter-view');
+        const calendarView = document.getElementById('calendar-view');
+        const kbContainer = document.getElementById('kb-container');
+
+        if (mode === "Takvim") {
+            converterView.classList.add('hidden');
+            calendarView.classList.remove('hidden');
+            kbContainer.classList.add('hidden');
+            renderCalendar();
+        } else {
+            converterView.classList.remove('hidden');
+            calendarView.classList.add('hidden');
+            kbContainer.classList.remove('hidden');
+            renderDropdowns(mode);
+        }
     }); 
 });
 
 document.getElementById('themeToggle').addEventListener('click', () => document.documentElement.classList.toggle('dark'));
 
+// --- HEADER SAAT VE TARİH SAYACI ---
 function updateHeader() {
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 4, 30, 0);
@@ -315,13 +484,15 @@ function updateHeader() {
     const gregBase = new Date(1071, 2, 21);
     const diff = now - gregBase;
     const daysPassed = Math.floor(diff / 86400000);
-    let year = 0; let daysCounter = 0;
+    let year = 0; 
+    let daysCounter = 0;
     while (true) {
         let yearDays = 365;
         let nextYear = year + 1;
         if (nextYear % 20 === 0 && nextYear % 640 !== 0) yearDays += 5;
         if (daysCounter + yearDays > daysPassed) break;
-        daysCounter += yearDays; year++;
+        daysCounter += yearDays; 
+        year++;
     }
     const day = (daysPassed - daysCounter) % 30 + 1;
     const month = Math.floor((daysPassed - daysCounter) / 30) + 1;
