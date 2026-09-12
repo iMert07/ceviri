@@ -18,65 +18,9 @@
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
         } else {
-            document.documentElement.classList.remove('dark')
+            document.documentElement.classList.remove('dark');
         }
     </script>
-    <style>
-        html, body { min-height: 100%; overflow-y: auto; margin: 0; padding: 0; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        .active-tab { background-color: #137fec; color: white !important; }
-        .active-tab span { color: white !important; }
-        .inactive-tab { background-color: transparent; color: #94a3b8; }
-        .dark .inactive-tab { color: #64748b; }
-        
-        .dropdown-panel {
-            display: none; position: absolute; top: calc(100% + 5px); left: 0;
-            min-width: 140px; background: white; border-radius: 12px;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1); border: 1px solid #e2e8f0;
-            z-index: 100; overflow: hidden;
-        }
-        .dark .dropdown-panel { background: #1e293b; border-color: #334155; }
-        .dropdown-panel.show { display: block; animation: dropdownFade 0.15s ease-out; }
-        @keyframes dropdownFade { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-
-        .dropdown-item {
-            padding: 10px 16px; font-size: 11px; font-weight: 700; color: #475569;
-            cursor: pointer; transition: all 0.2s; text-transform: uppercase;
-        }
-        .dark .dropdown-item { color: #94a3b8; }
-        .dropdown-item:hover { background: #f1f5f9; color: #137fec; }
-        .dark .dropdown-item:hover { background: #334155; color: white; }
-
-        .unit-pill {
-            display: flex; align-items: center; justify-content: center;
-            padding: 6px 16px; background: #e2e8f0; color: #475569;
-            border-radius: 9999px; font-size: 10px; font-weight: 800;
-            text-transform: uppercase; letter-spacing: 0.05em;
-            transition: all 0.2s; cursor: pointer; border: 1px solid transparent;
-            user-select: none; -webkit-user-select: none; max-width: 180px;
-        }
-        .dark .unit-pill { background: #1e293b; color: #94a3b8; border-color: #334155; }
-        .unit-pill:hover { background: #137fec; color: white; transform: translateY(-1px); }
-
-        /* Başlık kesilme önleyici */
-        .main-title {
-            line-height: 1.4 !important;
-            padding-bottom: 2px;
-        }
-
-        @media (min-width: 1024px) {
-            textarea { font-size: 1.5rem !important; }
-            h2 { font-size: 1.5rem !important; }
-        }
-
-        @media (max-width: 768px) {
-            .keyboard { width: 97% !important; max-width: 550px !important; margin: 0 0 0 auto !important; padding: 8px !important; border-radius: 1rem !important; }
-            #kb-container { padding-top: 5px !important; padding-bottom: 0px !important; padding-right: 0px !important; display: flex; justify-content: flex-end; }
-            .key { height: 38px !important; font-size: 1rem !important; border-bottom-width: 2px !important; }
-            textarea { font-size: 1.1rem !important; height: 140px !important; padding: 10px !important; }
-        }
-    </style>
 </head>
 <body class="bg-slate-50 dark:bg-background-dark text-slate-900 dark:text-white font-sans flex flex-col min-h-screen">
 
@@ -113,7 +57,8 @@
 </header>
 
 <main class="flex-1 flex flex-col p-3 gap-4 lg:gap-8">
-    <section class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
+    <!-- Standart Dönüştürücü Bölümü -->
+    <section id="converter-view" class="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
         <div class="flex flex-col gap-2 relative">
             <div class="w-max ml-1 relative">
                 <div class="unit-pill" id="pill-input-label" onclick="toggleDropdown('input')">Eski Alfabe</div>
@@ -131,6 +76,40 @@
         </div>
     </section>
 
+    <!-- Takvim Çeviri ve Görsel Izgara Bölümü -->
+    <section id="calendar-view" class="hidden flex flex-col gap-4 max-w-4xl mx-auto w-full">
+        <div class="flex flex-wrap items-center justify-between gap-3 bg-white dark:bg-[#192633] p-4 rounded-xl border border-slate-200 dark:border-[#324d67] shadow-sm">
+            <div class="flex items-center gap-2 relative">
+                <div class="unit-pill !max-w-none" id="pill-calendar-mode" onclick="toggleDropdown('calendar')">Gregoryen → Anatolya</div>
+                <div id="dropdown-calendar" class="dropdown-panel select-none">
+                    <div class="dropdown-item" onclick="selectCalendarMode('greg-to-ana')">Gregoryen → Anatolya</div>
+                    <div class="dropdown-item" onclick="selectCalendarMode('ana-to-greg')">Anatolya → Gregoryen</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="prevMonthBtn" class="p-2 rounded-lg bg-slate-100 dark:bg-[#111a22] hover:bg-primary hover:text-white transition-colors">
+                    <span class="material-symbols-outlined leading-none">chevron_left</span>
+                </button>
+                <div id="calendarMonthHeader" class="text-base sm:text-lg font-bold min-w-[180px] text-center">...</div>
+                <button id="nextMonthBtn" class="p-2 rounded-lg bg-slate-100 dark:bg-[#111a22] hover:bg-primary hover:text-white transition-colors">
+                    <span class="material-symbols-outlined leading-none">chevron_right</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-white dark:bg-[#192633] p-4 rounded-xl border border-slate-200 dark:border-[#324d67] shadow-sm flex flex-col gap-2">
+            <div class="grid grid-cols-7 gap-1 text-center font-bold text-xs sm:text-sm text-slate-500 dark:text-slate-400 py-1" id="calendarDaysHeader">
+                <div>Pzt</div><div>Sal</div><div>Çar</div><div>Per</div><div>Cum</div><div>Cmt</div><div>Paz</div>
+            </div>
+            <div class="grid grid-cols-7 gap-1.5" id="calendarGrid"></div>
+        </div>
+
+        <div id="selectedDateInfo" class="bg-slate-100 dark:bg-[#111a22] p-4 rounded-xl border border-slate-200 dark:border-[#324d67] text-sm flex flex-col sm:flex-row justify-between items-center gap-2">
+            <span class="text-slate-500 dark:text-slate-400">Bir güne tıklayarak ayrıntılı dönüşümü görüntüleyin.</span>
+        </div>
+    </section>
+
+    <!-- Klavye Bölümü -->
     <section id="kb-container" class="select-none">
         <div class="keyboard !my-0" id="mainKeyboard">
             <div class="row"><div class="key">θ</div><div class="key">1</div><div class="key">2</div><div class="key">3</div><div class="key">4</div><div class="key">5</div><div class="key">6</div><div class="key">7</div><div class="key">8</div><div class="key">9</div><div class="key">Φ</div><div class="key">Λ</div></div>
